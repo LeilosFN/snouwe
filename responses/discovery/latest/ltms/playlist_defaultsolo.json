@@ -27,13 +27,13 @@
             "es-419": "En solitario",
             "tr": "Tekli"
         },
-        "image_url": "https://cdn2.unrealengine.com/ogbr-solo-640-640x360-0f92e118028a.jpg",
+        "image_url": "https://cdn.projecthelix.website/Arena_Playlist.png",
         "product_tag": "Product.BR.Build.Solo",
         "image_urls": {
-            "url_s": "https://cdn2.unrealengine.com/ogbr-solo-640-640x360-0f92e118028a.jpg",
-            "url_xs": "https://cdn2.unrealengine.com/ogbr-solo-640-640x360-0f92e118028a.jpg",
-            "url_m": "https://cdn2.unrealengine.com/ogbr-solo-640-640x360-0f92e118028a.jpg",
-            "url": "https://cdn2.unrealengine.com/ogbr-solo-640-640x360-0f92e118028a.jpg"
+            "url_s": "https://cdn.projecthelix.website/Arena_Playlist.png",
+            "url_xs": "https://cdn.projecthelix.website/Arena_Playlist.png",
+            "url_m": "https://cdn.projecthelix.website/Arena_Playlist.png",
+            "url": "https://cdn.projecthelix.website/Arena_Playlist.png"
         },
         "matchmaking": {
             "override_playlist": "playlist_defaultsolo"

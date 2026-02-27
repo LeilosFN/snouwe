@@ -5,21 +5,18 @@
     "mnemonic": "set_br_playlists",
     "linkType": "ModeSet",
     "metadata": {
-        "image_url": "https://cdn2.unrealengine.com/ogbr-logo-1920-1920x1080-642ac8e12fc1.jpg",
+        "image_url": "https://cdn.projecthelix.website/Arena_Playlist.png",
         "image_urls": {
-            "url_s": "https://cdn2.unrealengine.com/ogbr-logo-480-480x270-2d0521c07edc.jpg",
-            "url_xs": "https://cdn2.unrealengine.com/ogbr-logo-256-256x144-25b34d79ca46.jpg",
-            "url_m": "https://cdn2.unrealengine.com/ogbr-logo-640-640x360-50590a2dfe12.jpg",
-            "url": "https://cdn2.unrealengine.com/ogbr-logo-1920-1920x1080-642ac8e12fc1.jpg"
+            "url_s": "https://cdn.projecthelix.website/Arena_Playlist.png",
+            "url_xs": "https://cdn.projecthelix.website/Arena_Playlist.png",
+            "url_m": "https://cdn.projecthelix.website/Arena_Playlist.png",
+            "url": "https://cdn.projecthelix.website/Arena_Playlist.png"
         },
         "title": "Battle Royale",
         "locale": "en",
         "video_vuid": "CaGHsWoMJxMGUDasbB",
         "sub_link_codes": [
-            "playlist_defaultsolo",
-            "playlist_defaultduo",
-            "playlist_trios",
-            "playlist_defaultsquad"
+            "playlist_defaultsolo"
         ],
         "alt_title": {
             "de": "Battle Royale",
@@ -65,7 +62,7 @@
         "corresponding_sets": {
             "ranked": "set_habanero_playlists"
         },
-        "default_sub_link_code": "playlist_defaultsquad"
+        "default_sub_link_code": "playlist_defaultsolo"
     },
     "version": 1,
     "active": true,

@@ -440,10 +440,7 @@
             "locale": "en",
             "video_vuid": "DpfVjiXQaFTRgOaGFE",
             "sub_link_codes": [
-                "playlist_defaultsolo",
-                "playlist_defaultduo",
-                "playlist_trios",
-                "playlist_defaultsquad"
+                "playlist_defaultsolo"
             ],
             "alt_title": {
                 "de": "Battle Royale",

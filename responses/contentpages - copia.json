@@ -36,7 +36,7 @@
     "overrideablemessage": {
       "_type": "CommonUI Simple Message",
       "message": {
-        "image": "https://launcher.leilos.qzz.io/images/leilos/bg1.png",
+        "image": "https://cdn.leilos.qzz.io/media/logo.jpg",
         "hidden": false,
         "_type": "CommonUI Simple Message Base",
         "adspace": "ENJOY!",
@@ -212,7 +212,7 @@
       "_type": "Battle Royale News",
       "messages": [
         {
-          "image": "https://launcher.leilos.qzz.io/images/leilos/bg1.png",
+          "image": "https://cdn.leilos.qzz.io/media/logo.jpg",
           "hidden": false,
           "_type": "CommonUI Simple Message Base",
           "adspace": "DISCORD!",
@@ -221,7 +221,7 @@
           "spotlight": false
         },
         {
-          "image": "https://launcher.leilos.qzz.io/images/leilos/bg1.png",
+          "image": "https://cdn.leilos.qzz.io/media/logo.jpg",
           "hidden": false,
           "_type": "CommonUI Simple Message Base",
           "adspace": "ENJOY!",
@@ -335,10 +335,10 @@
         },
         {
           "title_color": "000000",
-          "loading_screen_image": "https://launcher.leilos.qzz.io/images/leilos/bg1.png",
+          "loading_screen_image": "https://cdn.leilos.qzz.io/media/logo.jpg",
           "background_text_color": "00A2FF",
           "background_right_color": "00A2FF",
-          "poster_back_image": "https://launcher.leilos.qzz.io/images/leilos/bg1.png",
+          "poster_back_image": "https://cdn.leilos.qzz.io/media/logo.jpg",
           "_type": "Tournament Display Info",
           "pin_earned_text": "Benzi is the winner!",
           "tournament_display_id": "ArenaSolo",
@@ -346,7 +346,7 @@
           "schedule_info": "Jan 1st",
           "primary_color": "000000",
           "flavor_description": "",
-          "poster_front_image": "https://launcher.leilos.qzz.io/images/leilos/bg1.png",
+          "poster_front_image": "https://cdn.leilos.qzz.io/media/logo.jpg",
           "short_format_title": "Event Sessions",
           "title_line_1": "Lategame Arena",
           "shadow_color": "00A2FF",
@@ -355,7 +355,7 @@
           "long_format_title": "",
           "poster_fade_color": "00A2FF",
           "secondary_color": "00A2FF",
-          "playlist_tile_image": "https://launcher.leilos.qzz.io/images/leilos/bg1.png",
+          "playlist_tile_image": "https://cdn.leilos.qzz.io/media/logo.jpg",
           "base_color": "FFFFFF"
         }
       ],
@@ -5398,7 +5398,7 @@
       "motds": [
         {
           "entryType": "Website",
-          "image": "https://launcher.leilos.qzz.io/images/leilos/bg1.png",
+          "image": "https://cdn.leilos.qzz.io/media/logo.jpg",
           "tileImage": "https://launcher.leilos.qzz.io/images/leilos/bg1.png",
           "videoMute": false,
           "hidden": false,
@@ -5436,7 +5436,7 @@
       ],
       "messages": [
         {
-          "image": "https://launcher.leilos.qzz.io/images/leilos/bg1.png",
+          "image": "https://cdn.leilos.qzz.io/media/logo.jpg",
           "hidden": false,
           "_type": "CommonUI Simple Message Base",
           "adspace": "ENJOY!",
@@ -5512,7 +5512,7 @@
       "_type": "Battle Royale News",
       "messages": [
         {
-          "image": "https://launcher.leilos.qzz.io/images/leilos/bg1.png",
+          "image": "https://cdn.leilos.qzz.io/media/logo.jpg",
           "hidden": false,
           "_type": "CommonUI Simple Message Base",
           "adspace": "ENJOY!",
