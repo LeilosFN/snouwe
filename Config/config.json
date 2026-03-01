@@ -1,7 +1,7 @@
 {
     "moderators": ["852601982472421476"],
     "discord": {
-        "bot_token": "MTQ2MTg1NjMyNTcxNjY3NjY3OQ.G25UsJ.U8lzu77ZRF7PmyjpPRxPJ-omhFi0q8XU56_h0g"
+        "bot_token": ""
     },
     "mongodb": {
         "database": "mongodb://127.0.0.1/leilos_data"
@@ -13,4 +13,5 @@
     "matchmakerIP": "79.116.27.15:8080",
     "gameServerIP": "79.116.51.74:7777",
     "bEnableBattlepass": false
+
 }
