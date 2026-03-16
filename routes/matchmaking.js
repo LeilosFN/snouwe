@@ -17,10 +17,8 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
 
     buildUniqueId[req.user.accountId] = req.query.bucketId.split(":")[0];
 
-    const config = JSON.parse(fs.readFileSync("./Config/config.json").toString());
-
     res.json({
-        "serviceUrl": `ws://${config.matchmakerIP}`,
+        "serviceUrl": process.env.MATCHMAKER_IP || "ws://api.leilos.qzz.io:8080",
         "ticketType": "mms-player",
         "payload": "69=",
         "signature": "420="
@@ -37,22 +35,22 @@ app.get("/fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId
 });
 
 app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, (req, res) => {
-    const config = JSON.parse(fs.readFileSync("./Config/config.json").toString());
-
     let gameServerInfo = {
         serverAddress: "eu-mad.leilos.qzz.io",
-        serverPort: 7777
+        serverPort: 7777,
+        playlist: "Playlist_DefaultSolo"
     }
 
-    try {
-        let calculateIp = config.gameServerIP.split(":")[0];
-        let calculatePort = Number(config.gameServerIP.split(":")[1]);
+    // Lógica para detectar región (simplificada para este ejemplo)
+    const region = req.query.region || "EU";
+    const regionIp = region === "NAE" ? process.env.NAE_IP : process.env.EU_IP;
 
-        if (calculateIp) gameServerInfo.serverAddress = calculateIp;
-        if (Number.isNaN(calculatePort) || !calculatePort) throw new Error("Invalid port.");
-
-        gameServerInfo.serverPort = calculatePort;
-    } catch {}
+    if (regionIp) {
+        const parts = regionIp.split(":");
+        gameServerInfo.serverAddress = parts[0];
+        gameServerInfo.serverPort = Number(parts[1]) || 7777;
+        gameServerInfo.playlist = parts[2] || "Playlist_DefaultSolo";
+    }
 
     res.json({
         "id": req.params.sessionId,
@@ -66,7 +64,7 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, (req, res) 
         "maxPrivatePlayers": 0,
         "openPrivatePlayers": 0,
         "attributes": {
-          "REGION_s": "EU",
+          "REGION_s": region,
           "GAMEMODE_s": "FORTATHENA",
           "ALLOWBROADCASTING_b": true,
           "SUBREGION_s": "GB",
@@ -75,7 +73,7 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, (req, res) 
           "MATCHMAKINGPOOL_s": "Any",
           "STORMSHIELDDEFENSETYPE_i": 0,
           "HOTFIXVERSION_i": 0,
-          "PLAYLISTNAME_s": "Playlist_DefaultSolo",
+          "PLAYLISTNAME_s": gameServerInfo.playlist,
           "SESSIONKEY_s": functions.MakeID().replace(/-/ig, "").toUpperCase(),
           "TENANT_s": "Fortnite",
           "BEACONPORT_i": 15009

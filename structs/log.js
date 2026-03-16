@@ -1,46 +1,54 @@
+let recentLogs = [];
+const MAX_LOGS = 100;
+
+function addLog(type, message) {
+    const logEntry = {
+        timestamp: new Date().toISOString(),
+        type: type,
+        message: message
+    };
+    recentLogs.push(logEntry);
+    if (recentLogs.length > MAX_LOGS) {
+        recentLogs.shift();
+    }
+}
+
 function backend() {
     let msg = "";
-
-    for (let i in backend.arguments) {
-        msg += `${i == "0" ? "" : " "}${backend.arguments[i]}`;
+    for (let i in arguments) {
+        msg += `${i == "0" ? "" : " "}${arguments[i]}`;
     }
-
-    console.log(`\x1b[32mBACKEND\x1b[0m: ${msg}`);
+    addLog("BACKEND", msg);
 }
 
 function bot() {
     let msg = "";
-
-    for (let i in bot.arguments) {
-        msg += `${i == "0" ? "" : " "}${bot.arguments[i]}`;
+    for (let i in arguments) {
+        msg += `${i == "0" ? "" : " "}${arguments[i]}`;
     }
-
-    console.log(`\x1b[33mBOT\x1b[0m: ${msg}`);
+    addLog("BOT", msg);
 }
 
 function xmpp() {
     let msg = "";
-
-    for (let i in xmpp.arguments) {
-        msg += `${i == "0" ? "" : " "}${xmpp.arguments[i]}`;
+    for (let i in arguments) {
+        msg += `${i == "0" ? "" : " "}${arguments[i]}`;
     }
-
-    console.log(`\x1b[34mXMPP\x1b[0m: ${msg}`);
+    addLog("XMPP", msg);
 }
 
 function error() {
     let msg = "";
-
-    for (let i in error.arguments) {
-        msg += `${i == "0" ? "" : " "}${error.arguments[i]}`;
+    for (let i in arguments) {
+        msg += `${i == "0" ? "" : " "}${arguments[i]}`;
     }
-
-    console.log(`\x1b[31mERROR\x1b[0m: ${msg}`);
+    addLog("ERROR", msg);
 }
 
 module.exports = {
     backend,
     bot,
     xmpp,
-    error
+    error,
+    getRecentLogs: () => recentLogs
 }

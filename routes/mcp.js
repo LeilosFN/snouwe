@@ -6,8 +6,6 @@ const Profile = require("../model/profiles.js");
 const profileManager = require("../structs/profile.js");
 const error = require("../structs/error.js");
 const functions = require("../structs/functions.js");
-const config = require("../Config/config.json");
-
 const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
 
 global.giftReceived = {};
@@ -734,7 +732,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/MarkItemSeen", verifyToken, asy
     if (req.query.profileId == "athena") {
         profile.stats.attributes.season_num = 0;
 
-        if (config.bEnableBattlepass === false) {
+        if (process.env.B_ENABLE_BATTLEPASS === "false") {
              for (const key in profile.items) {
                  const templateId = profile.items[key].templateId;
                  if (templateId.startsWith("BattlePass:") ||
@@ -1909,7 +1907,7 @@ app.post("/fortnite/api/game/v2/profile/*/client/:operation", verifyToken, async
     }
 
     if (req.query.profileId == "athena") {
-        if (config.bEnableBattlepass === false) {
+        if (process.env.B_ENABLE_BATTLEPASS === "false") {
              let itemsToRemove = [];
              for (const key in profile.items) {
                  const templateId = profile.items[key].templateId;

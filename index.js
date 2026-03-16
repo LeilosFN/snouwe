@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config();
 const app = express();
 const mongoose = require("mongoose");
 const fs = require("fs");
@@ -6,7 +7,6 @@ const rateLimit = require("express-rate-limit");
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const cookieParser = require("cookie-parser");
-const config = JSON.parse(fs.readFileSync("./Config/config.json").toString());
 
 const log = require("./structs/log.js");
 const error = require("./structs/error.js");
@@ -14,8 +14,8 @@ const functions = require("./structs/functions.js");
 
 if (!fs.existsSync("./ClientSettings")) fs.mkdirSync("./ClientSettings");
 
-global.JWT_SECRET = config.JWT_SECRET || functions.MakeID();
-const PORT = config.PORT || 80;
+global.JWT_SECRET = process.env.JWT_SECRET || functions.MakeID();
+const PORT = process.env.PORT || 80;
 
 const tokens = JSON.parse(fs.readFileSync("./tokenManager/tokens.json").toString());
 
@@ -37,7 +37,7 @@ global.clientTokens = tokens.clientTokens;
 
 global.exchangeCodes = [];
 
-mongoose.connect(config.mongodb.database, () => {
+mongoose.connect(process.env.MONGODB_URI || "mongodb://127.0.0.1/leilos_data", () => {
     log.backend("App successfully connected to MongoDB!");
 });
 

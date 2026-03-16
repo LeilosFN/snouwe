@@ -28,21 +28,17 @@ cd backend-v2-main
 ```bash
 npm install
 ```
-3. Configurar el token del bot de Discord
+3. Configurar el bot de Discord y otras opciones
 
 Abre el archivo:
 
-`Config/config.json`
+`.env`
 
-Busca la línea:
-
-`"bot_token": ""`
-
-Y coloca tu token de Discord dentro de las comillas.
+Y configura las variables necesarias como `DISCORD_BOT_TOKEN`, `MONGODB_URI`, etc.
 
 4. Cambiar la IP
 
-Modifica la URL **api.leilos.qzz.io** por tu propia IP, ya que es la dirección a la que se conectará el backend.
+Modifica las variables `EU_IP` y `NAE_IP` en el archivo `.env` por tu propia IP o dominio.
 
 5. Iniciar el backend
 

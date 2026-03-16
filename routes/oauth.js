@@ -5,7 +5,6 @@ const User = require('../model/user.js');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 const path = require('path');
-const config = JSON.parse(fs.readFileSync("./Config/config.json").toString());
 const functions = require('../structs/functions.js');
 const discordBot = require('../DiscordBot/index.js'); // Importar el bot
 
@@ -16,8 +15,8 @@ if (!global.launcherCodes) global.launcherCodes = new Map();
 
 // 1. Iniciar sesión con Discord
 router.get('/api/v2/discord/login', (req, res) => {
-  const clientId = config.discord.client_id;
-  const redirectUri = encodeURIComponent(config.discord.redirect_uri);
+  const clientId = process.env.DISCORD_CLIENT_ID;
+  const redirectUri = encodeURIComponent(process.env.DISCORD_REDIRECT_URI);
   const state = req.query.state || 'web';
   const url = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=identify%20email&state=${state}`;
   res.redirect(url);
@@ -287,11 +286,11 @@ router.get('/api/v2/discord/callback', async (req, res) => {
 
   try {
     const tokenResponse = await axios.post('https://discord.com/api/oauth2/token', new URLSearchParams({
-      client_id: config.discord.client_id,
-      client_secret: config.discord.client_secret,
+      client_id: process.env.DISCORD_CLIENT_ID,
+      client_secret: process.env.DISCORD_CLIENT_SECRET,
       grant_type: 'authorization_code',
       code: code,
-      redirect_uri: config.discord.redirect_uri,
+      redirect_uri: process.env.DISCORD_REDIRECT_URI,
     }), { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
 
     const userResponse = await axios.get('https://discord.com/api/users/@me', {
@@ -317,7 +316,7 @@ router.get('/api/v2/discord/callback', async (req, res) => {
     try {
       const guildId = '1461855344631484612';
       const guildMemberResponse = await axios.get(`https://discord.com/api/guilds/${guildId}/members/${discordUser.id}`, {
-        headers: { Authorization: `Bot ${config.discord.bot_token}` }
+        headers: { Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}` }
       });
       
       const roles = guildMemberResponse.data.roles;
@@ -333,7 +332,7 @@ router.get('/api/v2/discord/callback', async (req, res) => {
 
     if (!user || !user.username || !user.created) {
       // Si no existe o está incompleto, crear automáticamente con contraseña 1234567890
-      const moderators = config.moderators || [];
+      const moderators = JSON.parse(process.env.MODERATORS || "[]");
       const isAdmin = moderators.includes(discordUser.id) || isHighRole;
 
       // Si ya existía uno incompleto o corrupto, lo eliminamos
@@ -472,7 +471,7 @@ router.get('/api/v2/discord/callback', async (req, res) => {
 // 3. Registro final
 router.post('/api/v2/discord/register', async (req, res) => {
   const { discordId, username, password, avatar, isHighRole } = req.body;
-  const moderators = config.moderators || [];
+  const moderators = JSON.parse(process.env.MODERATORS || "[]");
 
   try {
     const isAdmin = moderators.includes(discordId) || isHighRole === 'true'; 
@@ -815,6 +814,13 @@ router.get('/api/v2/dashboard', async (req, res) => {
                     <button type="submit" name="action" value="kick" class="btn" style="flex: 1; border-color: #ff9900; color: #ff9900;">Kick</button>
                   </div>
                 </form>
+              </div>
+              <div class="card-stat">
+                <div class="label">Herramientas del Servidor</div>
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                  <a href="/logs" target="_blank" class="btn" style="text-align: center;">Ver Logs del Servidor</a>
+                  <a href="/status" target="_blank" class="btn" style="text-align: center;">Estado del Sistema</a>
+                </div>
               </div>
             </div>
           ` : ''}

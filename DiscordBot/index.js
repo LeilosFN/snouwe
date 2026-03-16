@@ -10,7 +10,6 @@ const client = new Client({
 });
 const fs = require("fs");
 const path = require("path");
-const config = JSON.parse(fs.readFileSync("./Config/config.json").toString());
 const User = require("../model/user.js"); 
 
 const log = require("../structs/log.js");
@@ -103,7 +102,7 @@ client.on("interactionCreate", async interaction => {
         // Manejar Botones de Admin (Desbanear desde el canal de apelaciones)
         if (interaction.customId.startsWith('unban_')) {
             const discordId = interaction.customId.split('_')[1];
-            const moderators = config.moderators || [];
+            const moderators = JSON.parse(process.env.MODERATORS || "[]");
             const isAdmin = moderators.includes(interaction.user.id) || 
                             interaction.memberPermissions?.has(PermissionFlagsBits.Administrator);
 
@@ -176,4 +175,4 @@ client.on("interactionCreate", async interaction => {
     }
 });
 
-client.login(config.discord.bot_token);
+client.login(process.env.DISCORD_BOT_TOKEN);

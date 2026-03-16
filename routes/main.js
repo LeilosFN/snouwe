@@ -4,11 +4,14 @@ const app = express.Router();
 const path = require("path");
 
 const { verifyToken, verifyClient } = require("../tokenManager/tokenVerify.js");
+const log = require("../structs/log.js");
 
-const config = JSON.parse(fs.readFileSync("./Config/config.json").toString());
+app.get("/api/logs", (req, res) => {
+    res.json(log.getRecentLogs());
+});
 
 app.post("/fortnite/api/game/v2/chat/*/*/*/pc", (req, res) => {
-    let resp = config.chat.EnableGlobalChat ? { "GlobalChatRooms": [{ "roomName": "lawinserverglobal" }] } : {};
+    let resp = process.env.ENABLE_GLOBAL_CHAT === "true" ? { "GlobalChatRooms": [{ "roomName": "lawinserverglobal" }] } : {};
 
     res.json(resp);
 });
