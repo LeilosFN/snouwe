@@ -48,6 +48,96 @@ module.exports = {
             console.error(`[Discord] No se pudo enviar DM a ${discordId}:`, e.message);
             return false;
         }
+    },
+    sendUnbanNotification: async (discordId) => {
+        try {
+            const user = await client.users.fetch(discordId);
+            const unbanEmbed = new EmbedBuilder()
+                .setTitle('✅ Cuenta Reactivada')
+                .setDescription(`Tu cuenta en **Project Leilos** ha sido desbaneada. ¡Ya puedes volver a jugar!`)
+                .setColor(0x00FF00)
+                .setFooter({ text: 'Sistema de Seguridad Leilos' })
+                .setTimestamp();
+
+            await user.send({ embeds: [unbanEmbed] });
+            return true;
+        } catch (e) {
+            console.error(`[Discord] No se pudo enviar DM de desbaneo a ${discordId}:`, e.message);
+            return false;
+        }
+    },
+    sendAnnouncement: async (message, ping = false, imageUrl = null) => {
+        try {
+            const channelId = '1462232267681173607';
+            const channel = await client.channels.fetch(channelId);
+            if (!channel) return false;
+
+            let finalContent = message;
+            
+            // Si el ping está activado, lo añadimos oculto al final
+            if (ping) {
+                const pingText = '||<@&1487223414963048488>||';
+                if (!message.includes(pingText)) {
+                    finalContent += `\n\n${pingText}`;
+                }
+            }
+
+            // Preparamos las opciones del mensaje
+            let messageOptions = { content: finalContent };
+
+            // Si hay una imagen URL proporcionada y no está vacía, la adjuntamos
+            if (imageUrl && imageUrl.trim() !== '') {
+                try {
+                    messageOptions.files = [imageUrl.trim()];
+                } catch (imgError) {
+                    const log = require("../structs/log.js");
+                    log.error(`[Discord] URL de imagen inválida en anuncio: ${imageUrl}`);
+                }
+            }
+
+            // Enviar el mensaje con o sin imagen adjunta
+            await channel.send(messageOptions);
+            return true;
+        } catch (e) {
+            const log = require("../structs/log.js");
+            log.error(`[Discord] Error al enviar anuncio:`, e.message);
+            return false;
+        }
+    },
+    sendDownloadLinks: async (message) => {
+        try {
+            const channelId = '1462244894818041856';
+            const channel = await client.channels.fetch(channelId);
+            if (!channel) return false;
+
+            // Guardar el mensaje para que persista en el panel
+            fs.writeFileSync(path.join(__dirname, "..", "Config", "downloads.json"), JSON.stringify({ message }, null, 2));
+
+            // Limpiar mensajes anteriores del bot para mantener el canal ordenado
+            try {
+                const messages = await channel.messages.fetch({ limit: 50 });
+                const botMessages = messages.filter(m => m.author.id === client.user.id);
+                if (botMessages.size > 0) {
+                    await channel.bulkDelete(botMessages);
+                }
+            } catch (e) {
+                const log = require("../structs/log.js");
+                log.bot("[Discord] No se pudieron borrar mensajes antiguos de descargas (puede ser por antigüedad).");
+            }
+
+            // Enviar como mensaje de texto plano para que los emojis y el markdown se vean naturales
+            // Enviamos la imagen como archivo adjunto para que no se vea el link
+            const imageUrl = 'https://cdn.leilos.qzz.io/public/media/images/discord/downloads.png';
+            await channel.send({ 
+                content: message,
+                files: [imageUrl]
+            });
+            return true;
+        } catch (e) {
+            const log = require("../structs/log.js");
+            log.error(`[Discord] Error al enviar enlaces de descarga:`, e.message);
+            return false;
+        }
     }
 };
 

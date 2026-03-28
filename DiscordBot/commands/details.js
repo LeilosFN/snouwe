@@ -23,6 +23,7 @@ module.exports = {
             { name: "Banned", value: `${user.banned ? "Yes" : "No"}` },
             { name: "Account ID", value: user.accountId },
             { name: 'Username', value: user.username },
+            { name: 'Account Type', value: user.accountType || 'User' },
             { name: 'Email', value: `||${user.email}||` }
         )
         .setTimestamp()

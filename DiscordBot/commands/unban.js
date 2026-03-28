@@ -28,6 +28,12 @@ module.exports = {
 
         await targetUser.updateOne({ $set: { banned: false } });
         
+        // Notificar al usuario por DM
+        try {
+            const discordUser = await interaction.client.users.fetch(targetUser.discordId);
+            await discordUser.send('✅ Tu cuenta en **Project Leilos** ha sido desbaneada. ¡Ya puedes volver a jugar!');
+        } catch (e) {}
+
         interaction.editReply({ content: `Successfully unbanned ${targetUser.username}`, ephemeral: true });
     }
 }

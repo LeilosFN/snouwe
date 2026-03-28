@@ -15,6 +15,8 @@ const UserSchema = new mongoose.Schema(
         lastLogin: { type: Date, default: Date.now },
         isAdmin: { type: Boolean, default: false },
         isWhitelisted: { type: Boolean, default: false },
+        accountType: { type: String, default: "Usuario" },
+        matchmakingId: { type: String, default: "" },
         lastIp: { type: String, default: "" }
     },
     {
