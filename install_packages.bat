@@ -1,2 +1,2 @@
-npm i
+bun i
 pause

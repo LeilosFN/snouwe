@@ -11,6 +11,7 @@ const cookieParser = require("cookie-parser");
 const log = require("./structs/log.js");
 const error = require("./structs/error.js");
 const functions = require("./structs/functions.js");
+const { scheduleRestart } = require("./structs/autobackendrestart.js");
 
 if (!fs.existsSync("./ClientSettings")) fs.mkdirSync("./ClientSettings");
 
@@ -49,7 +50,17 @@ mongoose.connection.on("error", err => {
 app.set("trust proxy", true);
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(rateLimit({ windowMs: 0.5 * 60 * 1000, max: 45 }));
+
+// Configuración de rateLimit corregida
+const limiter = rateLimit({
+    windowMs: 0.5 * 60 * 1000,
+    max: 45,
+    keyGenerator: (req) => {
+        return req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.ip;
+    }
+});
+app.use(limiter);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -79,6 +90,9 @@ app.listen(PORT, () => {
 
     require("./xmpp/xmpp.js");
     require("./DiscordBot");
+
+    // Iniciamos el ciclo de reinicio de 6 horas
+    scheduleRestart();
 }).on("error", async (err) => {
     if (err.code == "EADDRINUSE") {
         log.error(`Port ${PORT} is already in use!\nClosing in 3 seconds...`);

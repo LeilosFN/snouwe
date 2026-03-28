@@ -37,30 +37,6 @@
         "namespace": "fn",
         "accountId": "epic",
         "creatorName": "Epic",
-        "mnemonic": "reference_byepicnocompetitive_5",
-        "linkType": "Reference",
-        "metadata": {
-        "ref_id": "CreativeDiscoverySurface_Frontend:ByEpicNoCompetitive",
-        "ref_qty": 5,
-        "feature_flags": [
-            "bypass_rating_check"
-        ],
-        "ref_type": "CreativeDiscoverySurfacePanel"
-        },
-        "version": 1,
-        "active": true,
-        "disabled": false,
-        "created": "2023-11-28T19:37:59.026Z",
-        "published": "2023-11-28T19:37:59.026Z",
-        "descriptionTags": [],
-        "moderationStatus": "Unmoderated",
-        "lastActivatedDate": "2023-11-28T19:37:59.033Z",
-        "discoveryIntent": "PUBLIC"
-    },
-    {
-        "namespace": "fn",
-        "accountId": "epic",
-        "creatorName": "Epic",
         "mnemonic": "playlist_defaultsolo",
         "linkType": "BR:Playlist",
         "metadata": {
@@ -73,18 +49,18 @@
                 "ru": "В одиночку",
                 "ko": "솔로",
                 "pt-BR": "Solo",
-                "en": "Solo",
+                "en": "Arena",
                 "it": "Singolo",
                 "fr": "Solo",
                 "zh-CN": "",
-                "es": "SOLO",
-                "es-MX": "SOLO",
+                "es": "Arena",
+                "es-MX": "Arena",
                 "zh": "",
                 "ar": "فردي",
                 "zh-Hant": "",
                 "ja": "ソロ",
                 "pl": "Solo",
-                "es-419": "SOLO",
+                "es-419": "Arena",
                 "tr": "Tekli"
             },
             "image_url": "https://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png",
@@ -99,7 +75,7 @@
                 "override_playlist": "playlist_defaultsolo"
             },
             "video_vuid": "taqdZkWyokbCyEFWld",
-            "title": "Solo"
+            "title": "Arena"
         },
         "version": 95,
         "active": true,
@@ -110,7 +86,7 @@
         "created": "2021-10-01T00:56:43.870Z",
         "published": "2023-11-03T08:26:11.189Z",
         "descriptionTags": [],
-        "moderationStatus": "Unmoderated",
+        "moderationStatus": "Approved",
         "discoveryIntent": "PUBLIC"
     },
     {
@@ -120,6 +96,7 @@
         "mnemonic": "set_br_playlists",
         "linkType": "ModeSet",
         "metadata": {
+            "age_rating_index": 0,
             "image_url": "https://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png",
             "image_urls": {
                 "url_s": "https://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png",
@@ -153,11 +130,11 @@
             },
             "alt_tagline": {
                 "de": "Überlebe allein in einer Schlacht bis auf den letzten Spieler.",
-                "ru": "Отправляйтесь на битву в одиночку и переживите всех соперников.",
+                "ru": "Отправляйтесь na la batalla en solitario y sobrevive a todos los oponentes.",
                 "ko": "죽느냐 사느냐... 혼자서 싸우는 서바이벌 혈투!",
-                "pt-BR": "Entre sozinho em uma batalla para ser o último sobrevivente.",
+                "pt-BR": "Entre sozinho em una batalla para ser o último sobrevivente.",
                 "it": "Combatti in solitaria fino a diventare l'ultimo superstite.",
-                "fr": "Combattez en solitaire et soyez le dernier survivant.",
+                "fr": "Combattez en solitaire et soyez le último survivant.",
                 "zh-CN": "",
                 "es": "Entra en solitario en un combate para ser el último en pie.",
                 "es-MX": "Entra por tu cuenta a un combate y pelea hasta que solo quedes tú en pie.",

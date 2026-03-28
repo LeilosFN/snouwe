@@ -16,6 +16,7 @@ app.post("/api/v1/discovery/surface/*", (req, res) => {
 
 app.post("/api/v2/discovery/surface/*", (req, res) => {
     res.json(getDiscoveryMenu());
+    
 });
 
 app.get("/fortnite/api/discovery/accessToken/*", (req, res) => {
@@ -51,6 +52,13 @@ app.get("/links/api/fn/mnemonic/:playlist", (req, res) => {
     } else {
         res.status(404).end();
     }
+});
+
+app.post("/api/v1/links/lock-status/:accountId/check", (req, res) => {
+    res.json({
+        "results": [],
+        "hasMore": false
+    });
 });
 
 app.post("/api/v1/fortnite-br/surfaces/*/target", (req, res) => {
@@ -135,15 +143,7 @@ app.post("/api/v1/assets/Fortnite/*", (req, res) => {
                         "AnalyticsId": "LEILOS",
                         "SurfaceName": "CreativeDiscoverySurface_Frontend",
                         "primaryAssetId": "FortCreativeDiscoverySurface:CreativeDiscoverySurface_Frontend",
-                        "TestCohorts": [
-                            {
-                                "AnalyticsId": "LEILOS_COHORT",
-                                "CohortSelector": "PlayerDeterministic",
-                                "TestName": "testing",
-                                "SelectionChance": 1.0,
-                                "ContentPanels": discoveryMenu.Panels
-                            }
-                        ]
+                        "TestCohorts": discoveryMenu.TestCohorts
                     }
                 }
             }

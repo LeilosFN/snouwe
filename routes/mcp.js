@@ -44,6 +44,16 @@ app.post("/fortnite/api/game/v2/profile/*/client/SetReceiveGiftsEnabled", verify
         "value": profile.stats.attributes.allowed_to_receive_gifts
     });
 
+    if (req.query.profileId == "common_core") {
+        profile.stats.attributes.parental_controls_enabled = false;
+        profile.stats.attributes.pin_enabled = false;
+        profile.stats.attributes.receive_gifts_enabled = true;
+        profile.stats.attributes.public_chat_enabled = true;
+        profile.stats.attributes.voice_chat_status = "Enabled";
+        profile.stats.attributes.mtx_purchase_restriction = "None";
+        profile.stats.attributes.preferred_rating = 99;
+    }
+
     if (ApplyProfileChanges.length > 0) {
         profile.rvn += 1;
         profile.commandRevision += 1;
@@ -731,6 +741,15 @@ app.post("/fortnite/api/game/v2/profile/*/client/MarkItemSeen", verifyToken, asy
 
     if (req.query.profileId == "athena") {
         profile.stats.attributes.season_num = 0;
+        
+        // Desbloquear modos para v28.30 (Control Parental y Age Gating)
+        profile.stats.attributes.parental_controls_enabled = false;
+        profile.stats.attributes.pin_enabled = false;
+        profile.stats.attributes.receive_gifts_enabled = true;
+        profile.stats.attributes.public_chat_enabled = true;
+        profile.stats.attributes.voice_chat_status = "Enabled";
+        profile.stats.attributes.mtx_purchase_restriction = "None";
+        profile.stats.attributes.preferred_rating = 99; // Permitir todas las edades
 
         if (process.env.B_ENABLE_BATTLEPASS === "false") {
              for (const key in profile.items) {

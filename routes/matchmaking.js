@@ -20,8 +20,8 @@ app.get("/fortnite/api/game/v2/matchmakingservice/ticket/player/*", verifyToken,
     res.json({
         "serviceUrl": process.env.MATCHMAKER_IP || "ws://api.leilos.qzz.io:8080",
         "ticketType": "mms-player",
-        "payload": "69=",
-        "signature": "420="
+        "payload": req.user.matchmakingId || "69=",
+        "signature": "account"
     });
     res.end();
 });
@@ -35,21 +35,28 @@ app.get("/fortnite/api/game/v2/matchmaking/account/:accountId/session/:sessionId
 });
 
 app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, (req, res) => {
+    const bucketId = req.query.bucketId || "";
+    const rawPlaylist = bucketId.split(":")[3] || "Playlist_DefaultSolo";
+    const playlist = functions.PlaylistNames(rawPlaylist);
+    const region = bucketId.split(":")[2] || "EU";
+
     let gameServerInfo = {
-        serverAddress: "eu-mad.leilos.qzz.io",
+        serverAddress: "127.0.0.1",
         serverPort: 7777,
-        playlist: "Playlist_DefaultSolo"
+        playlist: playlist
     }
 
-    // Lógica para detectar región (simplificada para este ejemplo)
-    const region = req.query.region || "EU";
-    const regionIp = region === "NAE" ? process.env.NAE_IP : process.env.EU_IP;
+    const EU_IP = process.env.EU_IP || "mad-eu.leilos.qzz.io:7777";
+    const NAE_IP = process.env.NAE_IP || "nae-.leilos.qzz.io:7777";
 
-    if (regionIp) {
-        const parts = regionIp.split(":");
+    if (region.toUpperCase() === "NAE" || region.toUpperCase() === "NA") {
+        const parts = NAE_IP.split(":");
         gameServerInfo.serverAddress = parts[0];
         gameServerInfo.serverPort = Number(parts[1]) || 7777;
-        gameServerInfo.playlist = parts[2] || "Playlist_DefaultSolo";
+    } else {
+        const parts = EU_IP.split(":");
+        gameServerInfo.serverAddress = parts[0];
+        gameServerInfo.serverPort = Number(parts[1]) || 7777;
     }
 
     res.json({
@@ -64,8 +71,7 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, (req, res) 
         "maxPrivatePlayers": 0,
         "openPrivatePlayers": 0,
         "attributes": {
-          "REGION_s": region,
-          "GAMEMODE_s": "FORTATHENA",
+          "REGION_s": region.toUpperCase(),
           "ALLOWBROADCASTING_b": true,
           "SUBREGION_s": "GB",
           "DCID_s": "FORTNITE-LIVEEUGCEC1C2E30UBRCORE0A-14840880",
@@ -75,8 +81,14 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, (req, res) 
           "HOTFIXVERSION_i": 0,
           "PLAYLISTNAME_s": gameServerInfo.playlist,
           "SESSIONKEY_s": functions.MakeID().replace(/-/ig, "").toUpperCase(),
+          "SESSION_ID_s": functions.MakeID().replace(/-/ig, "").toUpperCase(),
           "TENANT_s": "Fortnite",
-          "BEACONPORT_i": 15009
+          "BEACONPORT_i": 15009,
+          "MATCHMAKING_VERSION_i": 1,
+          "REGION_CUSTOM_s": region.toUpperCase(),
+          "NEEDS_GS_JOIN_b": true,
+          "IS_DEDICATED_b": true,
+          "ALLOW_JOIN_IN_PROGRESS_b": false,
         },
         "publicPlayers": [],
         "privatePlayers": [],
@@ -91,7 +103,7 @@ app.get("/fortnite/api/matchmaking/session/:sessionId", verifyToken, (req, res) 
         "allowJoinViaPresenceFriendsOnly": false,
         "buildUniqueId": buildUniqueId[req.user.accountId] || "0",
         "lastUpdated": new Date().toISOString(),
-        "started": false
+        "started": true
       });
 });
 

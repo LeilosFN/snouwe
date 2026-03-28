@@ -171,20 +171,20 @@ app.post("/account/api/oauth/token", async (req, res) => {
 
     res.json({
         access_token: `eg1~${accessToken}`,
-        expires_in: Math.round(((DateAddHours(new Date(decodedAccess.creation_date), decodedAccess.hours_expire).getTime()) - (new Date().getTime())) / 1000),
-        expires_at: DateAddHours(new Date(decodedAccess.creation_date), decodedAccess.hours_expire).toISOString(),
+        expires_in: 28800,
+        expires_at: "9999-12-31T23:59:59.999Z",
         token_type: "bearer",
         refresh_token: `eg1~${refreshToken}`,
-        refresh_expires: Math.round(((DateAddHours(new Date(decodedRefresh.creation_date), decodedRefresh.hours_expire).getTime()) - (new Date().getTime())) / 1000),
-        refresh_expires_at: DateAddHours(new Date(decodedRefresh.creation_date), decodedRefresh.hours_expire).toISOString(),
+        refresh_expires: 115200,
+        refresh_expires_at: "9999-12-31T23:59:59.999Z",
         account_id: req.user.accountId,
-        client_id: clientId,
+        client_id: req.body.client_id || "fortnitePCGameClient",
         internal_client: true,
         client_service: "fortnite",
         displayName: req.user.username,
         app: "fortnite",
         in_app_id: req.user.accountId,
-        device_id: deviceId
+        device_id: "none"
     });
 });
 

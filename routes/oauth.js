@@ -27,7 +27,7 @@ router.get('/api/launcher/login', (req, res) => {
   res.send(`
     <html>
       <head>
-        <title>Leilos Launcher | Login</title>
+        <title>.v2 | Login</title>
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@300;400;600;700&display=swap');
           :root {
@@ -79,7 +79,7 @@ router.get('/api/launcher/login', (req, res) => {
       </head>
       <body>
         <div class="card">
-          <h1>INICIAR SESIÓN</h1>
+          <h1>.v2 | ACCESO</h1>
           <form action="/api/launcher/login" method="POST">
             <div class="input-group">
               <input type="text" name="discordId" placeholder="Introduce tu ID de Usuario" required>
@@ -117,7 +117,7 @@ router.get('/api/launcher/confirm-view', async (req, res) => {
   res.send(`
     <html>
       <head>
-        <title>Leilos Launcher | Confirmar</title>
+        <title>.v2  | Confirmar</title>
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@300;400;600;700&display=swap');
           :root {
@@ -174,7 +174,7 @@ router.get('/api/launcher/confirm-view', async (req, res) => {
       <body>
         <div class="card">
           <img class="avatar" src="${avatarUrl}" />
-          <h1>¡BIENVENIDO, ${user.username.toUpperCase()}!</h1>
+          <h1>BIENVENIDO A .v2, ${user.username.toUpperCase()}!</h1>
           <p>Cuenta vinculada correctamente.</p>
           <div class="user-id">${user.username}</div>
           <button onclick="confirmLogin()">CONFIRMAR Y ENTRAR</button>
@@ -313,16 +313,88 @@ router.get('/api/v2/discord/callback', async (req, res) => {
 
     // Verificar roles en el servidor de Discord
     let isHighRole = false;
+    let isInServer = true;
     try {
       const guildId = '1461855344631484612';
+      const adminRoleId = '1478069256930459731'; // ID del rol Admin proporcionado
       const guildMemberResponse = await axios.get(`https://discord.com/api/guilds/${guildId}/members/${discordUser.id}`, {
         headers: { Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}` }
       });
       
       const roles = guildMemberResponse.data.roles;
-      if (roles.length > 0) isHighRole = true; 
+      if (roles.includes(adminRoleId)) isHighRole = true; 
     } catch (e) {
-      console.log('[Discord] El usuario no está en el servidor principal o el bot no tiene acceso.');
+      const log = require("../structs/log.js");
+      log.error('[Discord] El usuario no está en el servidor principal o el bot no tiene acceso.');
+      isInServer = false;
+    }
+
+    if (!isInServer) {
+        return res.send(`
+        <html>
+          <head>
+            <title>.v2 | Error</title>
+            <style>
+              @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@300;400;600;700&display=swap');
+              :root {
+                --primary: #D4AF37;
+                --bg-dark: #050505;
+                --bg-card: #0a0a0a;
+                --text-main: #ffffff;
+                --danger: #ff4444;
+              }
+              body { 
+                font-family: 'Rajdhani', sans-serif; 
+                background: var(--bg-dark); 
+                color: var(--text-main); 
+                display: flex; 
+                align-items: center; 
+                justify-content: center; 
+                height: 100vh; 
+                margin: 0;
+                text-align: center;
+              }
+              .card {
+                background: var(--bg-card);
+                padding: 3rem;
+                border-radius: 12px;
+                border: 1px solid rgba(255, 68, 68, 0.2);
+                box-shadow: 0 8px 32px rgba(255, 68, 68, 0.1);
+                max-width: 400px;
+                width: 90%;
+              }
+              h1 { font-family: 'Orbitron', sans-serif; color: var(--danger); margin-bottom: 1rem; font-size: 1.5rem; }
+              p { color: #b8b8b8; font-size: 1.1rem; line-height: 1.5; margin-bottom: 2rem; }
+              .btn {
+                background: rgba(255, 68, 68, 0.1);
+                color: var(--danger);
+                border: 1px solid var(--danger);
+                padding: 12px 24px;
+                border-radius: 6px;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                text-decoration: none;
+                display: inline-block;
+                font-family: 'Orbitron', sans-serif;
+              }
+              .btn:hover {
+                background: var(--danger);
+                color: #fff;
+                box-shadow: 0 0 15px rgba(255, 68, 68, 0.4);
+              }
+            </style>
+          </head>
+          <body>
+            <div class="card">
+              <h1>❌ ACCESO DENEGADO</h1>
+              <p>Para poder iniciar sesión y crear tu cuenta, debes estar dentro de nuestro servidor oficial de Discord.</p>
+              <a href="https://mini.crisu.qzz.io/?d=LeilosDiscord" class="btn">UNIRSE AL SERVIDOR</a>
+            </div>
+          </body>
+        </html>
+      `);
     }
 
     const email = `${discordUser.id}@leilos.tf`;
@@ -358,6 +430,7 @@ router.get('/api/v2/discord/callback', async (req, res) => {
       // Si el usuario existe, actualizar su avatar e IP
       await User.updateOne({ discordId: discordUser.id }, { 
         avatar: discordUser.avatar || '',
+        isAdmin: user.isAdmin,
         lastIp: req.ip,
         lastLogin: new Date()
       });
@@ -369,7 +442,7 @@ router.get('/api/v2/discord/callback', async (req, res) => {
       return res.send(`
         <html>
           <head>
-            <title>Leilos Launcher | Conectado</title>
+            <title>.v2 | Conectado</title>
             <style>
               @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@300;400;600;700&display=swap');
               :root {
@@ -429,7 +502,7 @@ router.get('/api/v2/discord/callback', async (req, res) => {
           <body>
             <div class="card">
               <img class="avatar" src="${discordUser.avatar ? `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png` : 'https://cdn.discordapp.com/embed/avatars/0.png'}" />
-              <h1>¡BIENVENIDO, ${user.username.toUpperCase()}!</h1>
+              <h1>BIENVENIDO A .v2, ${user.username.toUpperCase()}!</h1>
               <p>Sesión iniciada correctamente.</p>
               
               <div class="user-id" id="username-display">${user.username}</div>
@@ -463,7 +536,8 @@ router.get('/api/v2/discord/callback', async (req, res) => {
     res.redirect(`/api/v2/dashboard?id=${discordUser.id}`);
 
   } catch (error) {
-    console.error('OAuth Error:', error);
+    const log = require("../structs/log.js");
+    log.error('OAuth Error:', error);
     res.status(500).send('Error en la autenticación.');
   }
 });
@@ -474,7 +548,7 @@ router.post('/api/v2/discord/register', async (req, res) => {
   const moderators = JSON.parse(process.env.MODERATORS || "[]");
 
   try {
-    const isAdmin = moderators.includes(discordId) || isHighRole === 'true'; 
+    const isAdmin = moderators.includes(discordId) || isHighRole; 
     
     // Si ya existía uno incompleto o corrupto, lo eliminamos para crear el nuevo correctamente
     await User.deleteOne({ discordId });
@@ -518,10 +592,17 @@ router.get('/api/v2/dashboard', async (req, res) => {
   const isConnected = (global.Clients || []).some(i => i.accountId == user.accountId);
   const activeSessions = (global.accessTokens || []).filter(i => i.accountId == user.accountId).length;
 
+  // Cargar el último mensaje de descargas guardado
+  let lastDownloadsMessage = "";
+  try {
+    const downloadsConfig = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "Config", "downloads.json")).toString());
+    lastDownloadsMessage = downloadsConfig.message || "";
+  } catch (e) {}
+
   res.send(`
     <html>
       <head>
-        <title>Leilos Dashboard | ${user.username}</title>
+        <title>.v2 Dashboard | ${user.username}</title>
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@300;400;600;700&display=swap');
           
@@ -570,17 +651,17 @@ router.get('/api/v2/dashboard', async (req, res) => {
           }
 
           .container { 
-            max-width: 900px; 
+            max-width: 1200px; 
             width: 100%; 
             background: var(--bg-card); 
-            border-radius: 8px; 
+            border-radius: 12px; 
             border: 1px solid var(--border); 
-            padding: 3rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
+            padding: 3.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
             position: relative;
             margin: auto;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
           }
 
           .container:after {
@@ -625,33 +706,31 @@ router.get('/api/v2/dashboard', async (req, res) => {
           .online { background: rgba(0, 255, 0, 0.1); color: var(--success); border: 1px solid var(--success); }
           .offline { background: rgba(255, 0, 0, 0.1); color: var(--danger); border: 1px solid var(--danger); }
           
-          .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+          .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 1.5rem; 
+            margin-top: 1.5rem;
+          }
+
           .card-stat { 
-            background: rgba(255, 255, 255, 0.02); 
-            padding: 1.5rem; 
-            border-radius: 4px; 
+            background: rgba(255, 255, 255, 0.015);
+            padding: 1.8rem; 
+            border-radius: 12px; 
             border: 1px solid var(--border);
-            transition: all 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, background 0.3s ease;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
           }
-          .card-stat:after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--gold-gradient);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
+
+          .card-stat:hover {
+            transform: translateY(-4px);
+            border-color: rgba(212, 175, 55, 0.3);
+            background: rgba(255, 255, 255, 0.03);
           }
-          .card-stat:hover { 
-            transform: translateY(-5px); 
-            border-color: rgba(212, 175, 55, 0.3); 
-            background: rgba(212, 175, 55, 0.05);
-          }
-          .card-stat:hover:after { transform: scaleX(1); }
 
           .label { color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 0.5rem; font-weight: bold; letter-spacing: 1px; font-family: 'Orbitron', sans-serif; }
           .value { 
@@ -722,16 +801,23 @@ router.get('/api/v2/dashboard', async (req, res) => {
           .form-group input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 10px rgba(212, 175, 55, 0.1); }
           
           .section-title { 
-            margin-top: 3rem; 
-            margin-bottom: 1.5rem; 
-            border-bottom: 1px solid var(--border); 
-            padding-bottom: 0.5rem; 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: 1.3rem; 
             color: var(--primary); 
-            font-size: 1.2rem; 
-            font-weight: 800;
-            text-transform: uppercase; 
-            letter-spacing: 2px; 
-            font-family: 'Orbitron', sans-serif;
+            margin: 3.5rem 0 1.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+          }
+
+          .section-title:after {
+            content: "";
+            height: 1px;
+            flex: 1;
+            background: linear-gradient(90deg, var(--primary), transparent);
+            opacity: 0.3;
           }
 
           .alert { padding: 15px; border-radius: 4px; margin-bottom: 1.5rem; font-size: 0.9rem; border: 1px solid transparent; }
@@ -756,16 +842,14 @@ router.get('/api/v2/dashboard', async (req, res) => {
                 <p style="margin: 5px 0 0 0; color: var(--text-muted); font-weight: 600;">${user.email}</p>
               </div>
             </div>
-            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 10px;">
-              <span class="status-badge ${isConnected ? 'online' : 'offline'}">
-                ${isConnected ? 'SISTEMA ONLINE' : 'SISTEMA OFFLINE'}
+              <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 10px;">
               </span>
               <a href="/api/v2/logout" class="btn btn-danger" style="padding: 6px 12px; font-size: 0.7rem;">Cerrar Sesión</a>
             </div>
           </div>
 
-          ${req.query.success ? `<div class="alert alert-success">✅ ${req.query.success === 'name' ? 'Nombre actualizado' : req.query.success === 'ban' ? 'Usuario baneado' : req.query.success === 'unban' ? 'Usuario desbaneado' : req.query.success === 'kick' ? 'Usuario expulsado' : 'Operación exitosa'}.</div>` : ''}
-          ${req.query.error ? `<div class="alert alert-danger">❌ ${req.query.error === 'notfound' ? 'Usuario no encontrado' : 'Error en el servidor'}.</div>` : ''}
+          ${req.query.success ? `<div class="alert alert-success">✅ ${req.query.success === 'name' ? 'Nombre actualizado' : req.query.success === 'ban' ? 'Usuario baneado' : req.query.success === 'unban' ? 'Usuario desbaneado' : req.query.success === 'kick' ? 'Usuario expulsado' : req.query.success === 'type' ? 'Tipo de cuenta actualizado' : req.query.success === 'announcement' ? 'Anuncio enviado correctamente' : req.query.success === 'downloads' ? 'Enlaces de descarga actualizados' : 'Operación exitosa'}.</div>` : ''}
+          ${req.query.error ? `<div class="alert alert-danger">❌ ${req.query.error === 'notfound' ? 'Usuario no encontrado' : req.query.error === 'noban' ? 'Este usuario no puede ser baneado' : req.query.error === 'toolong' ? 'El mensaje es demasiado largo (máx. 2000 caracteres)' : req.query.error === 'missing' ? 'Faltan datos obligatorios' : 'Error en el servidor'}.</div>` : ''}
 
           <div class="grid">
             <div class="card-stat">
@@ -798,31 +882,100 @@ router.get('/api/v2/dashboard', async (req, res) => {
 
           ${adminCheck && adminCheck.isAdmin ? `
             <div class="section-title">🛡️ Panel de Administración</div>
-            <div class="grid">
-              <div class="card-stat">
-                <div class="label">Gestionar Usuario (ID o Nombre)</div>
-                <form action="/api/v2/admin/manage" method="POST">
-                  <div class="form-group">
-                    <input type="text" name="target" placeholder="Discord ID o Username" required>
+            <div class="grid" style="grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+              <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div class="card-stat">
+                  <div class="label">Gestionar Usuario (ID o Nombre)</div>
+                  <form action="/api/v2/admin/manage" method="POST">
+                    <div class="form-group">
+                      <input type="text" name="target" placeholder="Discord ID o Username" required>
+                    </div>
+                    <div class="form-group" id="reason-container" style="display: none;">
+                      <input type="text" name="reason" placeholder="Motivo del baneo (opcional)">
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                      <button type="submit" name="action" value="ban" class="btn btn-danger" style="flex: 1; padding: 10px 5px; font-size: 0.8rem;" onclick="document.getElementById('reason-container').style.display='block'; if(this.dataset.clicked !== 'true') { this.dataset.clicked = 'true'; return false; }">Ban</button>
+                      <button type="submit" name="action" value="unban" class="btn" style="flex: 1; border-color: var(--success); color: var(--success); padding: 10px 5px; font-size: 0.8rem;">Unban</button>
+                      <button type="submit" name="action" value="kick" class="btn" style="flex: 1; border-color: #ff9900; color: #ff9900; padding: 10px 5px; font-size: 0.8rem;">Kick</button>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="card-stat">
+                  <div class="label">Crear Cuenta Host</div>
+                  <form action="/api/v2/admin/manage" method="POST">
+                    <div class="form-group">
+                      <input type="text" name="username" placeholder="Nombre del Host" required>
+                    </div>
+                    <div class="form-group">
+                      <input type="password" name="password" placeholder="Contraseña" required>
+                    </div>
+                    <button type="submit" name="action" value="create-host" class="btn" style="width: 100%; border-color: var(--primary); color: var(--primary); padding: 10px;">Crear Host</button>
+                  </form>
+                </div>
+
+                <div class="card-stat">
+                  <div class="label">Herramientas del Servidor</div>
+                  <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+                    <a href="/logs" target="_blank" class="btn" style="text-align: center; padding: 10px;">Logs</a>
+                    <a href="/status" target="_blank" class="btn" style="text-align: center; padding: 10px;">Estado</a>
                   </div>
-                  <div class="form-group" id="reason-container" style="display: none;">
-                    <input type="text" name="reason" placeholder="Motivo del baneo (opcional)">
-                  </div>
-                  <div style="display: flex; gap: 10px;">
-                    <button type="submit" name="action" value="ban" class="btn btn-danger" style="flex: 1;" onclick="document.getElementById('reason-container').style.display='block'; if(this.dataset.clicked !== 'true') { this.dataset.clicked = 'true'; return false; }">Ban</button>
-                    <button type="submit" name="action" value="unban" class="btn" style="flex: 1; border-color: var(--success); color: var(--success);">Unban</button>
-                    <button type="submit" name="action" value="kick" class="btn" style="flex: 1; border-color: #ff9900; color: #ff9900;">Kick</button>
-                  </div>
-                </form>
+                </div>
               </div>
-              <div class="card-stat">
-                <div class="label">Herramientas del Servidor</div>
-                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
-                  <a href="/logs" target="_blank" class="btn" style="text-align: center;">Ver Logs del Servidor</a>
-                  <a href="/status" target="_blank" class="btn" style="text-align: center;">Estado del Sistema</a>
+
+              <div style="display: flex; flex-direction: column;">
+                <div class="card-stat" style="height: 100%; display: flex; flex-direction: column;">
+                  <div class="label">📥 Gestionar Descargas</div>
+                  <form action="/api/v2/admin/manage" method="POST" style="flex: 1; display: flex; flex-direction: column;">
+                    <div class="form-group" style="flex: 1; display: flex; position: relative;">
+                      <textarea name="message" id="downloads-text" maxlength="2000" placeholder="Escribe aquí los enlaces..." required style="width: 100%; background: #000; color: white; border: 1px solid var(--border); padding: 1.2rem; border-radius: 8px; font-family: 'Rajdhani', sans-serif; font-size: 0.95rem; min-height: 250px; resize: none; line-height: 1.4; outline: none;">${lastDownloadsMessage}</textarea>
+                      <div id="downloads-count" style="position: absolute; bottom: 10px; right: 15px; font-size: 0.75rem; color: var(--text-muted); font-family: 'Orbitron', sans-serif;">0 / 2000</div>
+                    </div>
+                    <button type="submit" name="action" value="downloads" class="btn" style="width: 100%; border-color: var(--primary); color: var(--primary); padding: 12px; margin-top: 1rem;">Actualizar Descargas</button>
+                  </form>
+                </div>
+              </div>
+
+              <div style="display: flex; flex-direction: column;">
+                <div class="card-stat" style="height: 100%; display: flex; flex-direction: column;">
+                  <div class="label">📢 Enviar Anuncio Bot</div>
+                  <form action="/api/v2/admin/manage" method="POST" style="flex: 1; display: flex; flex-direction: column;">
+                    <div class="form-group" style="flex: 1; display: flex; position: relative;">
+                      <textarea name="message" id="announcement-text" maxlength="2000" placeholder="Escribe el anuncio aquí..." required style="width: 100%; background: #000; color: white; border: 1px solid var(--border); padding: 1.2rem; border-radius: 8px; font-family: 'Rajdhani', sans-serif; font-size: 0.95rem; min-height: 250px; resize: none; line-height: 1.4; outline: none; margin-bottom: 10px;"></textarea>
+                      <div id="announcement-count" style="position: absolute; bottom: 20px; right: 15px; font-size: 0.75rem; color: var(--text-muted); font-family: 'Orbitron', sans-serif;">0 / 2000</div>
+                    </div>
+                    <div class="form-group" style="margin-top: 5px; margin-bottom: 5px;">
+                      <input type="text" name="imageUrl" placeholder="URL de imagen (opcional, ej: https://...)" style="width: 100%; background: #000; color: white; border: 1px solid var(--border); padding: 10px; border-radius: 4px; font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; outline: none;">
+                    </div>
+                    <div style="margin-top: 1rem; background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 8px; border: 1px solid var(--border);">
+                      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem;">
+                        <input type="checkbox" name="ping" id="ping-everyone" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary);">
+                        <label for="ping-everyone" style="font-size: 0.85rem; cursor: pointer; color: var(--text-main); font-weight: 600; font-family: 'Orbitron', sans-serif;">MENCIONAR @ANNOUNCEMENTS</label>
+                      </div>
+                      <button type="submit" name="action" value="announcement" class="btn" style="width: 100%; border-color: var(--primary); color: var(--primary); padding: 12px; font-size: 0.9rem; text-transform: uppercase; font-family: 'Orbitron', sans-serif;">ENVIAR ANUNCIO</button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
+
+            <script>
+              const updateCount = (textareaId, countId) => {
+                const textarea = document.getElementById(textareaId);
+                const count = document.getElementById(countId);
+                const update = () => {
+                  const len = textarea.value.length;
+                  count.innerText = len + ' / 2000';
+                  if (len >= 1900) count.style.color = 'var(--danger)';
+                  else if (len >= 1700) count.style.color = 'var(--primary)';
+                  else count.style.color = 'var(--text-muted)';
+                };
+                textarea.addEventListener('input', update);
+                update();
+              };
+              updateCount('downloads-text', 'downloads-count');
+              updateCount('announcement-text', 'announcement-count');
+            </script>
           ` : ''}
 
           <div class="section-title">Configuración de Cuenta</div>
@@ -850,10 +1003,43 @@ router.get('/api/v2/dashboard', async (req, res) => {
 // Admin Actions
 router.post('/api/v2/admin/manage', async (req, res) => {
   const sessionUser = req.cookies?.leilos_session;
-  const { target, action, reason } = req.body;
+  const { target, action, reason, newAccountType, message, username, discordId, password, ping } = req.body;
 
   const admin = await User.findOne({ discordId: sessionUser });
   if (!admin || !admin.isAdmin) return res.status(403).send('Acceso denegado.');
+
+  // Acciones que no requieren un targetUser existente
+  if (action === 'announcement') {
+    if (!message) return res.redirect(`/api/v2/dashboard?id=${sessionUser}&error=missing`);
+    if (message.length > 2000) return res.redirect(`/api/v2/dashboard?id=${sessionUser}&error=toolong`);
+    const { imageUrl } = req.body;
+    const success = await discordBot.sendAnnouncement(message, ping === 'on', imageUrl);
+    return res.redirect(`/api/v2/dashboard?id=${sessionUser}&success=${success ? 'announcement' : 'error'}`);
+  }
+
+  if (action === 'downloads') {
+    if (!message) return res.redirect(`/api/v2/dashboard?id=${sessionUser}&error=missing`);
+    if (message.length > 2000) return res.redirect(`/api/v2/dashboard?id=${sessionUser}&error=toolong`);
+    const success = await discordBot.sendDownloadLinks(message);
+    return res.redirect(`/api/v2/dashboard?id=${sessionUser}&success=${success ? 'downloads' : 'error'}`);
+  }
+
+  if (action === 'create-host') {
+    if (!username || !password) return res.redirect(`/api/v2/dashboard?id=${sessionUser}&error=missing`);
+    
+    // Generar Discord ID único automático para cuentas host
+    const finalDiscordId = `host_${uuidv4().split('-')[0]}`;
+    
+    // Verificar si ya existe
+    const existing = await User.findOne({ $or: [{ discordId: finalDiscordId }, { username_lower: username.toLowerCase() }] });
+    if (existing) return res.redirect(`/api/v2/dashboard?id=${sessionUser}&error=exists`);
+
+    const resp = await functions.registerUser(finalDiscordId, username, `${finalDiscordId}@leilos.tf`, password);
+    if (resp.status >= 400) return res.redirect(`/api/v2/dashboard?id=${sessionUser}&error=create`);
+
+    await User.updateOne({ discordId: finalDiscordId }, { accountType: 'SERVER', isWhitelisted: true });
+    return res.redirect(`/api/v2/dashboard?id=${sessionUser}&success=createhost`);
+  }
 
   const targetUser = await User.findOne({ 
     $or: [{ discordId: target }, { username: target }, { username_lower: target.toLowerCase() }] 
@@ -862,6 +1048,9 @@ router.post('/api/v2/admin/manage', async (req, res) => {
   if (!targetUser) return res.redirect(`/api/v2/dashboard?id=${sessionUser}&error=notfound`);
 
   if (action === 'ban') {
+    if (targetUser.accountType && targetUser.accountType.includes('SERVER')) {
+      return res.redirect(`/api/v2/dashboard?id=${sessionUser}&error=noban`);
+    }
     const banReason = reason || 'Baneado desde el Dashboard';
     await targetUser.updateOne({ banned: true, banReason: banReason });
     
@@ -881,6 +1070,8 @@ router.post('/api/v2/admin/manage', async (req, res) => {
     res.redirect(`/api/v2/dashboard?id=${sessionUser}&success=ban`);
   } else if (action === 'unban') {
     await targetUser.updateOne({ banned: false, banReason: '' });
+    // Notificar al usuario por DM a través del bot
+    await discordBot.sendUnbanNotification(targetUser.discordId);
     res.redirect(`/api/v2/dashboard?id=${sessionUser}&success=unban`);
   } else if (action === 'kick') {
     let rt = (global.refreshTokens || []).findIndex(i => i.accountId == targetUser.accountId);

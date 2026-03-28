@@ -1,3 +1,3 @@
 :start
-node index.js
+bun --watch index.js
 goto start

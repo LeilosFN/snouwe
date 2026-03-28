@@ -9,7 +9,7 @@
       "_type": "CommonUI Simple Message",
       "message": {
         "_type": "CommonUI Simple Message Base",
-        "title": "LEILOS :]",
+        "title": "LEILOS (¬‿¬)",
         "body": "Discord: https://mini.crisu.qzz.io/?d=LeilosDiscord"
       }
     },
@@ -40,7 +40,7 @@
         "hidden": false,
         "_type": "CommonUI Simple Message Base",
         "adspace": "ENJOY!",
-        "title": "LEILOS :]",
+        "title": ".v2 :]",
         "body": "Discord: https://mini.crisu.qzz.io/?d=LeilosDiscord",
         "spotlight": false
       }
@@ -216,7 +216,7 @@
           "hidden": false,
           "_type": "CommonUI Simple Message Base",
           "adspace": "DISCORD!",
-          "title": "LEILOS :]",
+          "title": "LEILOS (¬‿¬)",
           "body": "https://mini.crisu.qzz.io/?d=LeilosDiscord",
           "spotlight": false
         },
@@ -225,7 +225,7 @@
           "hidden": false,
           "_type": "CommonUI Simple Message Base",
           "adspace": "ENJOY!",
-          "title": "LEILOS :]",
+          "title": "LEILOS (¬‿¬)",
           "body": "Discord: https://mini.crisu.qzz.io/?d=LeilosDiscord",
           "spotlight": false
         }
@@ -289,6 +289,13 @@
           "hidden": false,
           "special_border": "None",
           "_type": "FortPlaylistInfo"
+        },
+        {
+          "image": "https://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png",
+          "playlist_name": "Playlist_ShowdownAlt_Solo",
+          "hidden": false,
+          "special_border": "None",
+          "_type": "FortPlaylistInfo"
         }
       ]
     },
@@ -318,44 +325,19 @@
           "pin_earned_text": ":D",
           "tournament_display_id": "ArenaSolo",
           "highlight_color": "FFFFFF",
-          "schedule_info": "February 1st, 2nd & 3rd: 2pm - 5pm JST",
+          "schedule_info": "Always Available",
           "primary_color": "FFFFFF",
-          "flavor_description": "cool",
+          "flavor_description": "Compite para subir de división",
           "poster_front_image": "https://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png",
-          "short_format_title": "Event Sessions",
-          "title_line_1": "Lategame Arena",
+          "short_format_title": "Arena Solo",
+          "title_line_1": "Arena",
           "shadow_color": "1B1B1B",
-          "details_description": "description  here  ig?",
+          "details_description": "¡Juega Arena y sube tus puntos de Hype!",
           "background_left_color": "F81B2D",
-          "long_format_title": "title text here",
+          "long_format_title": "Modo Arena",
           "poster_fade_color": "DD091A",
           "secondary_color": "1B1B1B",
           "playlist_tile_image": "https://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png",
-          "base_color": "FFFFFF"
-        },
-        {
-          "title_color": "000000",
-          "loading_screen_image": "https://cdn.leilos.qzz.io/public/media/images/lobby/background_2048.png",
-          "background_text_color": "00A2FF",
-          "background_right_color": "00A2FF",
-          "poster_back_image": "https://cdn.leilos.qzz.io/public/media/images/lobby/background_2048.png",
-          "_type": "Tournament Display Info",
-          "pin_earned_text": "Benzi is the winner!",
-          "tournament_display_id": "ArenaSolo",
-          "highlight_color": "00A2FF",
-          "schedule_info": "Jan 1st",
-          "primary_color": "000000",
-          "flavor_description": "",
-          "poster_front_image": "https://cdn.leilos.qzz.io/public/media/images/lobby/background_2048.png",
-          "short_format_title": "Event Sessions",
-          "title_line_1": "Lategame Arena",
-          "shadow_color": "00A2FF",
-          "details_description": "",
-          "background_left_color": "F81B2D",
-          "long_format_title": "",
-          "poster_fade_color": "00A2FF",
-          "secondary_color": "00A2FF",
-          "playlist_tile_image": "https://cdn.leilos.qzz.io/public/media/images/logo/Fort_Load_SeasonKeyArt.png",
           "base_color": "FFFFFF"
         }
       ],
@@ -374,7 +356,7 @@
         {
           "hidden": false,
           "_type": "CommonUI Simple Message Base",
-          "title": "LEILOS :]",
+          "title": "LEILOS (¬‿¬)",
           "body": "Discord: https://mini.crisu.qzz.io/?d=LeilosDiscord",
           "spotlight": true
         }
@@ -399,7 +381,7 @@
           "gamemodes": [],
           "hidden": false,
           "_type": "CommonUI Emergency Notice Base",
-          "title": "LEILOS :]",
+          "title": "LEILOS (¬‿¬)",
           "body": "Discord: https://mini.crisu.qzz.io/?d=LeilosDiscord"
         }
       ]
@@ -5402,7 +5384,7 @@
           "tileImage": "https://cdn.leilos.qzz.io/public/media/images/logo/Fort_Load_SeasonKeyArt.png",
           "videoMute": false,
           "hidden": false,
-          "tabTitleOverride": "LEILOS :]",
+          "tabTitleOverride": "LEILOS (¬‿¬)",
           "_type": "CommonUI Simple Message MOTD",
           "title": "Welcome to Leilos!",
           "body": "Discord: https://mini.crisu.qzz.io/?d=LeilosDiscord",
@@ -5440,7 +5422,7 @@
           "hidden": false,
           "_type": "CommonUI Simple Message Base",
           "adspace": "ENJOY!",
-          "title": "LEILOS :]",
+          "title": "LEILOS (¬‿¬)",
           "body": "Discord: https://mini.crisu.qzz.io/?d=LeilosDiscord",
           "spotlight": false
         }
@@ -5516,7 +5498,7 @@
           "hidden": false,
           "_type": "CommonUI Simple Message Base",
           "adspace": "ENJOY!",
-          "title": "LEILOS :]",
+          "title": "LEILOS (¬‿¬)",
           "body": "Discord: https://mini.crisu.qzz.io/?d=LeilosDiscord",
           "spotlight": false
         }

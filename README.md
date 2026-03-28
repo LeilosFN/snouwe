@@ -1,4 +1,4 @@
-## Leilos Backend
+## .v2 Backend
 
 > Este backend está basado en el código de LawinServerv2 y fue modificado por Crisutf.
 
@@ -21,8 +21,8 @@
 # Cómo instalar
 1. Clonar el repositorio
 ```bash
-git clone https://github.com/LeilosFN/Backend.git
-cd backend-v2-main
+git clone https://github.com/LeilosFN/.v2.git
+cd .v2-main
 ```
 2. Instalar las dependencias
 ```bash

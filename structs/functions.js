@@ -9,6 +9,8 @@ const User = require("../model/user.js");
 const Profile = require("../model/profiles.js");
 const profileManager = require("../structs/profile.js");
 const Friends = require("../model/friends.js");
+const Arena = require("../model/arena.js");
+const log = require("../structs/log.js");
 
 async function sleep(ms) {
     await new Promise((resolve, reject) => {
@@ -362,15 +364,16 @@ function getPresenceFromUser(fromId, toId, offline) {
     ClientData.client.send(xml.toString());
 }
 
-async function registerUser(discordId, username) {
-    const plainPassword = "1234567890";
-    const email = `${discordId}@leilos.tf`.toLowerCase();
+async function registerUser(discordId, username, email, password) {
+    const plainPassword = password || "1234567890";
+    const userEmail = email || `${discordId}@leilos.tf`.toLowerCase();
 
-    if (!discordId || !username) return { message: "Username is required.", status: 400 };
+    if (!discordId || !username) return { message: "Discord ID and Username are required.", status: 400 };
 
-    if (await User.findOne({ discordId })) return { message: "You already created an account!", status: 400 };
+    if (await User.findOne({ discordId })) return { message: "Account already exists with this Discord ID!", status: 400 };
 
     const accountId = MakeID().replace(/-/ig, "");
+    const matchmakingId = MakeID().replace(/-/ig, "");
 
     if (username.length >= 25) return { message: "Your username must be less than 25 characters long.", status: 400 };
     if (username.length < 3) return { message: "Your username must be atleast 3 characters long.", status: 400 };
@@ -390,8 +393,9 @@ async function registerUser(discordId, username) {
             accountId, 
             username, 
             username_lower: username.toLowerCase(), 
-            email, 
-            password: hashedPassword 
+            email: userEmail, 
+            password: hashedPassword,
+            matchmakingId
         });
         
         await Profile.create({ created: user.created, accountId: user.accountId, profiles: profileManager.createProfiles(user.accountId) });
@@ -417,6 +421,66 @@ function UpdateTokens() {
     }, null, 2));
 }
 
+function PlaylistNames(playlist) {
+    if (typeof playlist !== 'string') return playlist;
+
+    const playlistLower = playlist.toLowerCase();
+
+    // Mapeos para versiones antiguas (números)
+    switch (playlist) {
+      case "2": return "Playlist_DefaultSolo";
+      case "10": return "Playlist_DefaultDuo";
+      case "9": return "Playlist_DefaultSquad";
+      case "50": return "Playlist_50v50";
+      case "11": return "Playlist_50v50";
+      case "13": return "Playlist_HighExplosives_Squads";
+      case "22": return "Playlist_5x20";
+      case "36": return "Playlist_Blitz_Solo";
+      case "37": return "Playlist_Blitz_Duos";
+      case "19": return "Playlist_Blitz_Squad";
+      case "33": return "Playlist_Carmine";
+      case "32": return "Playlist_Fortnite";
+      case "23": return "Playlist_HighExplosives_Solo";
+      case "24": return "Playlist_HighExplosives_Squads";
+      case "44": return "Playlist_Impact_Solo";
+      case "45": return "Playlist_Impact_Duos";
+      case "46": return "Playlist_Impact_Squads";
+      case "35": return "Playlist_Playground";
+      case "30": return "Playlist_SkySupply";
+      case "42": return "Playlist_SkySupply_Duos";
+      case "43": return "Playlist_SkySupply_Squads";
+      case "41": return "Playlist_Snipers";
+      case "39": return "Playlist_Snipers_Solo";
+      case "40": return "Playlist_Snipers_Duos";
+      case "26": return "Playlist_SolidGold_Solo";
+      case "27": return "Playlist_SolidGold_Squads";
+      case "28": return "Playlist_ShowdownAlt_Solo";
+      case "solo": return "Playlist_DefaultSolo";
+      case "duo": return "Playlist_DefaultDuo";
+      case "squad": return "Playlist_DefaultSquad";
+      case "trios": return "Playlist_Trios";
+    }
+
+    // Mapeos para versiones modernas (v28.30+)
+    if (playlistLower.includes("playlist_defaultsolo")) return "Playlist_DefaultSolo";
+    if (playlistLower.includes("playlist_defaultduo")) return "Playlist_DefaultDuo";
+    if (playlistLower.includes("playlist_defaultsquad")) return "Playlist_DefaultSquad";
+    if (playlistLower.includes("playlist_trios")) return "Playlist_Trios";
+    if (playlistLower.includes("playlist_habanero_solo")) return "Playlist_Habanero_Solo";
+    if (playlistLower.includes("playlist_habanero_duo")) return "Playlist_Habanero_Duo";
+    if (playlistLower.includes("playlist_habanero_squad")) return "Playlist_Habanero_Squad";
+    if (playlistLower.includes("playlist_habanero_trios")) return "Playlist_Habanero_Trios";
+    if (playlistLower.includes("playlist_juno")) return "Playlist_Juno";
+    if (playlistLower.includes("playlist_papaya")) return "Playlist_Papaya";
+
+    // Si no coincide con nada, intentamos devolverlo en PascalCase si es el formato de playlist_...
+    if (playlistLower.startsWith("playlist_")) {
+        return playlist.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join('_');
+    }
+
+    return playlist;
+}
+
 module.exports = {
     sleep,
     GetVersionInfo,
@@ -429,5 +493,115 @@ module.exports = {
     getPresenceFromUser,
     registerUser,
     DecodeBase64,
-    UpdateTokens
+    UpdateTokens,
+    PlaylistNames,
+    getDivisionPoints,
+    addEliminationHypePoints,
+    addVictoryHypePoints,
+    deductBusFareHypePoints,
+    updateHypePoints,
+    getNextDivision,
+    getAccountIdData
 }
+
+async function getDivisionPoints(accountId, statType) {
+  const eventListPath = path.join(
+    __dirname,
+    "./../responses/eventlistactive.json",
+  );
+  const eventList = JSON.parse(fs.readFileSync(eventListPath, "utf-8"));
+  const playerData = await Arena.findOne({ accountId });
+  const playerDivision = playerData ? playerData.division : 0;
+
+  const eventWindow = eventList.events[0].eventWindows.find(
+    (window) => window.metadata.divisionRank === playerDivision,
+  );
+
+  if (!eventWindow) {
+    console.error("Division non trouv�e dans la liste des �v�nements.");
+    return 0;
+  }
+
+  const scoringRule = eventList.templates
+    .find(
+      (template) => template.eventTemplateId === eventWindow.eventTemplateId,
+    )
+    .scoringRules.find((rule) => rule.trackedStat === statType);
+
+  if (scoringRule) {
+    const pointsEarned = scoringRule.rewardTiers[0].pointsEarned;
+    return pointsEarned;
+  }
+
+  return 0;
+}
+
+async function addEliminationHypePoints(user) {
+  const points = await getDivisionPoints(
+    user.account_id || user.accountId,
+    "TEAM_ELIMS_STAT_INDEX",
+  );
+  return await updateHypePoints(user, points);
+}
+
+async function addVictoryHypePoints(user) {
+  const points = await getDivisionPoints(
+    user.account_id || user.accountId,
+    "PLACEMENT_STAT_INDEX",
+  );
+  return await updateHypePoints(user, points);
+}
+
+async function deductBusFareHypePoints(user) {
+  const points = await getDivisionPoints(user.account_id || user.accountId, "MATCH_PLAYED_STAT");
+  return await updateHypePoints(user, -points);
+}
+
+async function updateHypePoints(user, points) {
+  const accountId = user.account_id || user.accountId;
+
+  let playerData = await Arena.findOne({ accountId });
+  let currentHype = playerData ? playerData.hype : 0;
+  let currentDivision = playerData ? playerData.division : 0;
+
+  currentHype += points;
+
+  const nextDivision = getNextDivision(currentHype, currentDivision);
+  currentDivision = nextDivision;
+
+  await Arena.updateOne(
+    { accountId },
+    {
+      $set: {
+        accountId: accountId,
+        hype: currentHype,
+        division: currentDivision,
+      },
+    },
+    { upsert: true },
+  );
+
+  return {
+    success: true,
+    data: `Points mis � jour � ${currentHype}, Division actuelle : ${currentDivision}`,
+  };
+}
+
+function getNextDivision(hypePoints, currentDivision) {
+  const thresholds = [
+    400, 800, 1200, 2000, 3000, 5000, 7500, 10000, 14999, 15000,
+  ];
+  for (let i = 0; i < thresholds.length; i++) {
+    if (hypePoints < thresholds[i]) return i;
+  }
+  return currentDivision;
+}
+
+function getAccountIdData(UserID) {
+  if (!UserID) return "";
+  if (UserID.includes("|")) {
+      return UserID.split("|")[1];
+  }
+  return UserID;
+}
+

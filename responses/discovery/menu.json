@@ -151,14 +151,21 @@
                   "lockStatusReason": "NONE",
                   "isVisible": true,
                   "version": 95,
-                  "moderationStatus": "Unmoderated",
+                  "moderationStatus": "Approved",
                   "accountId": "epic",
                   "creatorName": "Epic",
                   "descriptionTags": [],
                   "metadata": {
                     "age_rating_index": 0,
-                    "image_url": "https://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png",
-                    "title": "Solo",
+                    "image_url": "http://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png",
+                    "title": "Arena",
+                    "tagline": "Arena Solo",
+                    "alt_title": {
+                      "en": "Arena",
+                      "es": "Arena",
+                      "es-419": "Arena",
+                      "es-MX": "Arena"
+                    },
                     "matchmaking": {
                       "override_playlist": "playlist_defaultsolo"
                     }
@@ -166,7 +173,10 @@
                 },
                 "lastVisited": null,
                 "linkCode": "playlist_defaultsolo",
-                "isFavorite": false
+                "isFavorite": false,
+                "lockStatus": "UNLOCKED",
+                "isVisible": true,
+                "age_rating_index": 0
               }
             ],
             "hasMore": false
@@ -175,7 +185,66 @@
       }
     ],
     "TestCohorts": [
-      "testing"
+      {
+        "AnalyticsId": "LEILOS_COHORT",
+        "CohortSelector": "PlayerDeterministic",
+        "TestName": "testing",
+        "SelectionChance": 1.0,
+        "ContentPanels": [
+          {
+            "PanelName": "Homebar_V3",
+            "PanelDisplayName": ":D",
+            "FeatureTags": ["col:5", "homebar"],
+            "PanelType": "CuratedList",
+            "PlayHistoryType": "RecentlyPlayed",
+            "FirstPage": {
+              "results": [
+                {
+                  "lastVisited": null,
+                  "linkCode": "welcome_banner",
+                  "isFavorite": false,
+                  "globalCCU": 1,
+                  "lockStatus": "UNLOCKED",
+                  "lockStatusReason": "NONE",
+                  "isVisible": true
+                },
+                {
+                  "lastVisited": null,
+                  "linkCode": "playlist_defaultsolo",
+                  "isFavorite": false,
+                  "globalCCU": 1,
+                  "lockStatus": "UNLOCKED",
+                  "lockStatusReason": "NONE",
+                  "isVisible": true,
+                  "age_rating_index": 0
+                }
+              ],
+              "hasMore": false
+            }
+          },
+          {
+            "PanelName": "ByEpicNoCompetitive",
+            "PanelDisplayName": "DE EPIC",
+            "FeatureTags": ["col:5"],
+            "PanelType": "AnalyticsList",
+            "FirstPage": {
+              "results": [
+                {
+                  "lastVisited": null,
+                  "linkCode": "playlist_defaultsolo",
+                  "isFavorite": false,
+                  "globalCCU": 1,
+                  "lockStatus": "UNLOCKED",
+                  "lockStatusReason": "NONE",
+                  "isVisible": true,
+                  "age_rating_index": 0
+                }
+              ],
+              "hasMore": false
+            }
+          }
+        ]
+      }
     ],
     "ModeSets": {}
   }
