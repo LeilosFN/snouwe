@@ -1,56 +1,77 @@
-## .v2 Backend
+# .v2 - Project Leilos 🚀
+> **Estado del Proyecto:** ⚠️ *En desarrollo (Beta) - No está terminado.*
 
-> Este backend está basado en el código de LawinServerv2 y fue modificado por Crisutf.
+Este backend es una versión personalizada y mejorada basada en el código original de **LawinServerv2**, modificada exhaustivamente por **Crisutf**.
 
-# Cambios y mejoras incluidas
+---
 
-- Incluye todas las skins hasta el Capítulo 5 - Temporada 1.
+## ✨ Características y Mejoras
 
-- Puedes elegir cualquier skin sin problemas y se guardará automáticamente.
+### 🎮 Experiencia de Juego
+- **Skins y Cosméticos:** Incluye soporte para todas las skins hasta el **Capítulo 5 - Temporada 1**.
+- **Guardado Automático:** Los cambios en tu locker se guardan instantáneamente en la base de datos.
+- **Personalización:** Soporte para fondos de lobby personalizados (Lobby Backgrounds).
+- **Interfaz Limpia:** Se han ocultado secciones innecesarias como Tienda, Pase de Batalla, Carrera y Pavos para una experiencia más fluida.
+- **Sistema de Ready:** Opción de marcar como "Listo" funcional (Matchmaking en desarrollo).
 
-- Permite establecer un fondo personalizado.
+### 🤖 Integración con Discord
+- **Bot de Notificaciones:** Notificaciones automáticas por MD al ser baneado o desbaneado.
+- **Sistema de Apelaciones:** Los usuarios pueden apelar sus sanciones directamente desde Discord mediante botones y formularios.
+- **Comunicados:** Herramienta integrada para enviar anuncios oficiales al servidor de Discord con soporte para pings y archivos adjuntos.
+- **Gestión de Descargas:** Canal de descargas automatizado que se mantiene actualizado y ordenado.
 
-- Se han ocultado las secciones de Tienda, Pase de Batalla, Carrera y Pavos.
+### 🛠️ Administración y Seguridad
+- **Panel de Control Web:** Dashboard visual para que los usuarios gestionen su cuenta y los administradores controlen el servidor.
+- **Herramientas de Moderación:** Capacidad para banear, desbanear y expulsar usuarios en tiempo real.
+- **Estabilidad:** Sistema de auto-reinicio cada 6 horas para garantizar un rendimiento óptimo.
+- **Seguridad Avanzada:** Implementación de JWT para sesiones, validación estricta de tokens y limitación de peticiones (Rate Limiting).
+- **Persistencia:** Base de datos robusta utilizando **MongoDB**.
 
-- Se añadió la opción de marcar como "Listo" (aunque actualmente no inicia partida, ya que no se pudieron implementar los modos de juego).
+---
 
-- Panel de control donde el usuario controla de forma visual su cuenta, y si es admin incluido el control de banear y expulsar a otros usuarios.
+## 🚀 Instalación
 
-- El bot te notificara cuando te banean y por que y encima se puede apelar.
+1. **Clonar el repositorio:**
+   ```bash
+   git clone https://github.com/LeilosFN/.v2.git
+   cd .v2-main
+   ```
 
-# Cómo instalar
-1. Clonar el repositorio
-```bash
-git clone https://github.com/LeilosFN/.v2.git
-cd .v2-main
-```
-2. Instalar las dependencias
-```bash
-npm install
-```
-3. Configurar el bot de Discord y otras opciones
+2. **Instalar dependencias:**
+   ```bash
+   npm install
+   ```
 
-Abre el archivo:
+3. **Configuración inicial:**
+   Edita el archivo `.env` con tus credenciales:
+   - `DISCORD_BOT_TOKEN`: Token de tu bot de Discord.
+   - `MONGODB_URI`: Tu cadena de conexión de MongoDB.
+   - `EU_IP` / `NAE_IP`: Tu dirección IP o dominio.
 
-`.env`
+4. **Iniciar el servidor:**
+   Simplemente ejecuta el archivo:
+   ```bash
+   start.bat
+   ```
 
-Y configura las variables necesarias como `DISCORD_BOT_TOKEN`, `MONGODB_URI`, etc.
+---
 
-4. Cambiar la IP
+## 📜 Licencia y Créditos
 
-Modifica las variables `EU_IP` y `NAE_IP` en el archivo `.env` por tu propia IP o dominio.
+Este proyecto es una modificación del trabajo original de **LawinServerv2**. 
 
-5. Iniciar el backend
+**IMPORTANTE:**
+- Este backend ha sido modificado y es mantenido por **Crisutf**.
+- Está **ESTRICTAMENTE PROHIBIDO** vender este código o cualquier parte de él.
+- Su uso está permitido siempre y cuando se mantengan los **créditos correspondientes** a Crisutf y al equipo original.
+- El uso comercial de este software sin autorización es ilegal y va en contra de los términos de la comunidad.
 
-Ejecuta el archivo:
+---
 
-start.bat
+## 📞 Contacto
 
-Y listo.
+Si quieres colaborar, reportar errores o necesitas ayuda, puedes contactarme en Discord:
+**Crisutf**
 
-## Nota
+¡Gracias por apoyar el proyecto!
 
-Si quieres ayudar en el proyecto, ¡muchas gracias!
-Puedes contactarme en Discord:
-
-Crisutf
