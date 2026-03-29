@@ -131,7 +131,7 @@
                   "descriptionTags": [],
                   "metadata": {
                     "age_rating_index": 0,
-                    "image_url": "https://cdn.leilos.qzz.io/public/media/images/logo/background.jpg",
+                    "image_url": "https://api.leilos.qzz.io/images/leilos/bg1.png",
                     "title": "Crisutf",
                     "tagline": "Disfruta de la mejor experiencia en nuestro servidor privado."
                   }
@@ -157,7 +157,7 @@
                   "descriptionTags": [],
                   "metadata": {
                     "age_rating_index": 0,
-                    "image_url": "http://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png",
+                    "image_url": "https://api.leilos.qzz.io/images/leilos/Arena_Playlist.png",
                     "title": "Arena",
                     "tagline": "Arena Solo",
                     "alt_title": {
@@ -167,12 +167,12 @@
                       "es-MX": "Arena"
                     },
                     "matchmaking": {
-                      "override_playlist": "playlist_defaultsolo"
+                      "override_playlist": "playlist_showdownalt_solo"
                     }
                   }
                 },
                 "lastVisited": null,
-                "linkCode": "playlist_defaultsolo",
+                "linkCode": "playlist_showdownalt_solo",
                 "isFavorite": false,
                 "lockStatus": "UNLOCKED",
                 "isVisible": true,
@@ -181,6 +181,78 @@
             ],
             "hasMore": false
           }     
+        ]
+      },
+      {
+        "PanelName": "Competitive",
+        "PanelDisplayName": "COMPETICIÓN",
+        "FeatureTags": ["col:5"],
+        "PanelType": "CuratedList",
+        "FirstPage": {
+          "results": [
+            {
+              "lastVisited": null,
+              "linkCode": "playlist_showdownalt_solo",
+              "isFavorite": false,
+              "globalCCU": 1,
+              "lockStatus": "UNLOCKED",
+              "lockStatusReason": "NONE",
+              "isVisible": true
+            },
+            {
+              "lastVisited": null,
+              "linkCode": "playlist_showdownalt_duos",
+              "isFavorite": false,
+              "globalCCU": 1,
+              "lockStatus": "UNLOCKED",
+              "lockStatusReason": "NONE",
+              "isVisible": true
+            },
+            {
+              "lastVisited": null,
+              "linkCode": "playlist_showdownalt_trios",
+              "isFavorite": false,
+              "globalCCU": 1,
+              "lockStatus": "UNLOCKED",
+              "lockStatusReason": "NONE",
+              "isVisible": true
+            }
+          ],
+          "hasMore": false
+        },
+        "Pages": [
+          {
+            "results": [
+              {
+                "lastVisited": null,
+                "linkCode": "playlist_showdownalt_solo",
+                "isFavorite": false,
+                "globalCCU": 1,
+                "lockStatus": "UNLOCKED",
+                "lockStatusReason": "NONE",
+                "isVisible": true
+              },
+              {
+                "lastVisited": null,
+                "linkCode": "playlist_showdownalt_duos",
+                "isFavorite": false,
+                "globalCCU": 1,
+                "lockStatus": "UNLOCKED",
+                "lockStatusReason": "NONE",
+                "isVisible": true
+              },
+              {
+                "lastVisited": null,
+                "linkCode": "playlist_showdownalt_trios",
+                "isFavorite": false,
+                "globalCCU": 1,
+                "lockStatus": "UNLOCKED",
+                "lockStatusReason": "NONE",
+                "isVisible": true
+              }
+            ],
+            "hasMore": false
+          }
         ]
       }
     ],

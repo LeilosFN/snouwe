@@ -2,7 +2,7 @@
     "namespace": "fn",
     "accountId": "epic",
     "creatorName": "Epic",
-    "mnemonic": "playlist_showdownalt_solo",
+    "mnemonic": "playlist_showdownalt_duos",
     "linkType": "BR:Playlist",
     "metadata": {
         "age_rating_index": 0,
@@ -10,26 +10,12 @@
         "favorite_override": "set_br_playlists",
         "play_history_override": "set_br_playlists",
         "alt_title": {
-            "de": "Solo",
-            "ru": "В одиночку",
-            "ko": "솔로",
-            "pt-BR": "Solo",
-            "en": "Arena",
-            "it": "Singolo",
-            "fr": "Solo",
-            "zh-CN": "",
-            "es": "Arena",
-            "es-MX": "Arena",
-            "zh": "",
-            "ar": "فردي",
-            "zh-Hant": "",
-            "ja": "ソロ",
-            "pl": "Solo",
-            "es-419": "Arena",
-            "tr": "Tekli"
+            "en": "Arena Duos",
+            "es": "Arena Dúos",
+            "es-419": "Arena Dúos"
         },
         "image_url": "https://api.leilos.qzz.io/images/leilos/Arena_Playlist.png",
-        "product_tag": "Product.BR.Build.Solo",
+        "product_tag": "Product.BR.Build.Duos",
         "image_urls": {
             "url_s": "https://api.leilos.qzz.io/images/leilos/Arena_Playlist.png",
             "url_xs": "https://api.leilos.qzz.io/images/leilos/Arena_Playlist.png",
@@ -37,20 +23,20 @@
             "url": "https://api.leilos.qzz.io/images/leilos/Arena_Playlist.png"
         },
         "matchmaking": {
-            "override_playlist": "playlist_showdownalt_solo"
+            "override_playlist": "playlist_showdownalt_duos"
         },
         "video_vuid": "taqdZkWyokbCyEFWld",
-        "title": "Arena"
+        "title": "Arena Duos"
     },
-    "version": 95,
-    "linkCode": "playlist_showdownalt_solo",
+    "version": 1,
+    "linkCode": "playlist_showdownalt_duos",
     "active": true,
     "disabled": false,
     "lockStatus": "UNLOCKED",
     "lockStatusReason": "NONE",
     "isVisible": true,
-    "created": "2021-10-01T00:56:43.870Z",
-    "published": "2023-11-03T08:26:11.189Z",
+    "created": "2024-01-01T00:00:00.000Z",
+    "published": "2024-01-01T00:00:00.000Z",
     "descriptionTags": [],
     "moderationStatus": "Approved",
     "discoveryIntent": "PUBLIC"

@@ -17,6 +17,26 @@ app.get("/fortnite/api/calendar/v1/timeline", (req, res) => {
             "eventType": `EventFlag.${memory.lobby}`,
             "activeUntil": "9999-01-01T00:00:00.000Z",
             "activeSince": "2020-01-01T00:00:00.000Z"
+        },
+        {
+            "eventType": "EventFlag.ShowdownSolo",
+            "activeUntil": "9999-01-01T00:00:00.000Z",
+            "activeSince": "2020-01-01T00:00:00.000Z"
+        },
+        {
+            "eventType": "EventFlag.ShowdownDuo",
+            "activeUntil": "9999-01-01T00:00:00.000Z",
+            "activeSince": "2020-01-01T00:00:00.000Z"
+        },
+        {
+            "eventType": "EventFlag.ShowdownTrios",
+            "activeUntil": "9999-01-01T00:00:00.000Z",
+            "activeSince": "2020-01-01T00:00:00.000Z"
+        },
+        {
+            "eventType": "EventFlag.ShowdownSquad",
+            "activeUntil": "9999-01-01T00:00:00.000Z",
+            "activeSince": "2020-01-01T00:00:00.000Z"
         }
     ];
 

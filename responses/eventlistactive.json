@@ -302,6 +302,84 @@
 		},
 		{
 			"gameId": "Fortnite",
+			"displayDataId": "ArenaDuo",
+			"eventId": "epicgames_Arena_S24_Duo",
+			"announcementTime": "2024-03-01T01:36:52Z",
+			"beginTime": "2024-02-29T01:36:52Z",
+			"endTime": "9999-12-31T23:59:59.000Z",
+			"platforms": ["PS4", "XboxOne", "Switch", "Android", "IOS", "Windows"],
+			"regions": ["NAE", "ME", "NAW", "OCE", "ASIA", "EU", "BR"],
+			"metadata": {
+				"TrackedStats": ["PLACEMENT_STAT_INDEX", "TEAM_ELIMS_STAT_INDEX", "MATCH_PLAYED_STAT"],
+				"minimumAccountLevel": 0
+			},
+			"eventWindows": [
+				{
+					"eventTemplateId": "eventTemplate_Arena_S24_Division1_Duo",
+					"eventWindowId": "Arena_S24_Division1_Duo",
+					"beginTime": "2024-02-29T01:36:52Z",
+					"endTime": "9999-12-31T23:59:59.000Z",
+					"countdownBeginTime": "2023-06-15T15:00:00.000Z",
+					"metadata": {
+						"RoundType": "Arena",
+						"ThresholdToAdvanceDivision": 400,
+						"divisionRank": 0
+					},
+					"payoutDelay": 1,
+					"requireAllTokens": ["ARENA_S24_Division1"],
+					"teammateEligibility": "any",
+					"scoreLocations": [
+						{
+							"scoreMode": "persistent",
+							"scoreId": "Hype"
+						}
+					],
+					"visibility": "public",
+					"canLiveSpectate": false
+				}
+			]
+		},
+		{
+			"gameId": "Fortnite",
+			"displayDataId": "ArenaTrios",
+			"eventId": "epicgames_Arena_S24_Trios",
+			"announcementTime": "2024-03-01T01:36:52Z",
+			"beginTime": "2024-02-29T01:36:52Z",
+			"endTime": "9999-12-31T23:59:59.000Z",
+			"platforms": ["PS4", "XboxOne", "Switch", "Android", "IOS", "Windows"],
+			"regions": ["NAE", "ME", "NAW", "OCE", "ASIA", "EU", "BR"],
+			"metadata": {
+				"TrackedStats": ["PLACEMENT_STAT_INDEX", "TEAM_ELIMS_STAT_INDEX", "MATCH_PLAYED_STAT"],
+				"minimumAccountLevel": 0
+			},
+			"eventWindows": [
+				{
+					"eventTemplateId": "eventTemplate_Arena_S24_Division1_Trios",
+					"eventWindowId": "Arena_S24_Division1_Trios",
+					"beginTime": "2024-02-29T01:36:52Z",
+					"endTime": "9999-12-31T23:59:59.000Z",
+					"countdownBeginTime": "2023-06-15T15:00:00.000Z",
+					"metadata": {
+						"RoundType": "Arena",
+						"ThresholdToAdvanceDivision": 400,
+						"divisionRank": 0
+					},
+					"payoutDelay": 1,
+					"requireAllTokens": ["ARENA_S24_Division1"],
+					"teammateEligibility": "any",
+					"scoreLocations": [
+						{
+							"scoreMode": "persistent",
+							"scoreId": "Hype"
+						}
+					],
+					"visibility": "public",
+					"canLiveSpectate": false
+				}
+			]
+		},
+		{
+			"gameId": "Fortnite",
 			"eventId": "ReloadTournament",
 			"regions": [
 				"EU"

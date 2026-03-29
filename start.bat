@@ -1,3 +1,3 @@
 :start
-bun --watch index.js
+bun run index.js
 goto start

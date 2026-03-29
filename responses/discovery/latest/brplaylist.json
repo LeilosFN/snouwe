@@ -5,12 +5,12 @@
     "mnemonic": "set_br_playlists",
     "linkType": "ModeSet",
     "metadata": {
-        "image_url": "https://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png",
+        "image_url": "https://api.leilos.qzz.io/images/leilos/Arena_Playlist.png",
         "image_urls": {
-            "url_s": "https://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png",
-            "url_xs": "https://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png",
-            "url_m": "https://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png",
-            "url": "https://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png"
+            "url_s": "https://api.leilos.qzz.io/images/leilos/Arena_Playlist.png",
+            "url_xs": "https://api.leilos.qzz.io/images/leilos/Arena_Playlist.png",
+            "url_m": "https://api.leilos.qzz.io/images/leilos/Arena_Playlist.png",
+            "url": "https://api.leilos.qzz.io/images/leilos/Arena_Playlist.png"
         },
         "title": "Battle Royale",
         "locale": "en",

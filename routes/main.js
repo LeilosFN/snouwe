@@ -187,6 +187,36 @@ app.get("/fortnite/api/game/v2/enabled_features", (req, res) => {
     res.json([]);
 });
 
+app.get("/fortnite/api/game/v2/events/v2/download/:accountId", async (req, res) => {
+    const accountId = req.params.accountId;
+
+    try {
+        const playerData = await Arena.findOne({ accountId });
+        const hypePoints = playerData ? playerData.hype : 0;
+        const division = playerData ? playerData.division : 0;
+
+        const eventsDataPath = path.join(
+            __dirname,
+            "./../responses/eventlistactive.json",
+        );
+        const events = JSON.parse(fs.readFileSync(eventsDataPath, "utf-8"));
+
+        events.player = {
+            accountId: accountId,
+            gameId: "Fortnite",
+            persistentScores: {
+                Hype: hypePoints,
+            },
+            tokens: [`ARENA_S24_Division${division + 1}`],
+        };
+
+        res.json(events);
+    } catch (error) {
+        console.error("Error fetching Arena data:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
 app.get("/api/v1/events/Fortnite/download/:accountId", async (req, res) => {
     const accountId = req.params.accountId;
 

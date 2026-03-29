@@ -518,7 +518,7 @@ async function getDivisionPoints(accountId, statType) {
   );
 
   if (!eventWindow) {
-    console.error("Division non trouv�e dans la liste des �v�nements.");
+    console.error("División no encontrada en la lista de eventos.");
     return 0;
   }
 
@@ -583,7 +583,7 @@ async function updateHypePoints(user, points) {
 
   return {
     success: true,
-    data: `Points mis � jour � ${currentHype}, Division actuelle : ${currentDivision}`,
+    data: `Puntos actualizados a ${currentHype}, División actual: ${currentDivision}`,
   };
 }
 
