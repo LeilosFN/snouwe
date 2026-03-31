@@ -10,6 +10,134 @@ const discordBot = require('../DiscordBot/index.js'); // Importar el bot
 
 const router = express.Router();
 
+const translations = {
+  es: {
+    dashboard_title: "Panel de Control",
+    welcome: "BIENVENIDO A .v2",
+    account_linked: "Cuenta vinculada correctamente.",
+    confirm_and_enter: "CONFIRMAR Y ENTRAR",
+    logout: "Cerrar Sesión",
+    account_id: "ID de Cuenta",
+    discord_id: "Discord ID",
+    access_status: "Estado de Acceso",
+    privileges: "Privilegios",
+    last_ip: "Última IP Detectada",
+    active_sessions: "Sesiones Activas",
+    admin_panel: "Panel de Administración",
+    manage_user: "Gestionar Usuario (ID o Nombre)",
+    ban: "Ban",
+    unban: "Unban",
+    kick: "Kick",
+    create_host: "Crear Cuenta Host",
+    server_tools: "Herramientas del Servidor",
+    manage_downloads: "Gestionar Descargas",
+    send_announcement: "Enviar Anuncio Bot",
+    account_config: "Configuración de Cuenta",
+    change_name: "Cambiar Nombre",
+    update: "Actualizar",
+    connected: "CONECTADO",
+    active: "ACTIVO",
+    banned: "BANEADO",
+    admin: "Administrador",
+    user: "Usuario",
+    devices: "dispositivo(s)",
+    last_login: "Último Inicio de Sesión",
+    not_registered: "No registrada",
+    manage_user_placeholder: "Discord ID o Username",
+    reason_placeholder: "Motivo del baneo (opcional)",
+    host_name_placeholder: "Nombre del Host",
+    password_placeholder: "Contraseña",
+    write_links_placeholder: "Escribe aquí los enlaces...",
+    write_announcement_placeholder: "Escribe el anuncio aquí...",
+    image_url_placeholder: "URL de imagen (opcional)",
+    mention_announcements: "MENCIONAR @ANNOUNCEMENTS",
+    send_announcement_btn: "ENVIAR ANUNCIO",
+    update_downloads: "Actualizar Descargas",
+    new_name_placeholder: "Nuevo Nombre",
+    success_name: "Nombre actualizado",
+    success_ban: "Usuario baneado",
+    success_unban: "Usuario desbaneado",
+    success_kick: "Usuario expulsado",
+    success_announcement: "Anuncio enviado correctamente",
+    success_downloads: "Enlaces de descarga actualizados",
+    error_notfound: "Usuario no encontrado",
+    error_noban: "Este usuario no puede ser baneado",
+    error_toolong: "El mensaje es demasiado largo",
+    error_missing: "Faltan datos obligatorios",
+    error_server: "Error en el servidor",
+    confirm_btn: "¡CONECTADO!",
+    generating_code: "GENERANDO CÓDIGO...",
+    confirm_instruction: "Pulsa el botón para que el Launcher detecte tu cuenta."
+  },
+  en: {
+    dashboard_title: "Control Panel",
+    welcome: "WELCOME TO .v2",
+    account_linked: "Account linked successfully.",
+    confirm_and_enter: "CONFIRM AND ENTER",
+    logout: "Logout",
+    account_id: "Account ID",
+    discord_id: "Discord ID",
+    access_status: "Access Status",
+    privileges: "Privileges",
+    last_ip: "Last Detected IP",
+    active_sessions: "Active Sessions",
+    admin_panel: "Admin Panel",
+    manage_user: "Manage User (ID or Name)",
+    ban: "Ban",
+    unban: "Unban",
+    kick: "Kick",
+    create_host: "Create Host Account",
+    server_tools: "Server Tools",
+    manage_downloads: "Manage Downloads",
+    send_announcement: "Send Bot Announcement",
+    account_config: "Account Settings",
+    change_name: "Change Name",
+    update: "Update",
+    connected: "CONNECTED",
+    active: "ACTIVE",
+    banned: "BANNED",
+    admin: "Admin",
+    user: "User",
+    devices: "device(s)",
+    last_login: "Last Login",
+    not_registered: "Not registered",
+    manage_user_placeholder: "Discord ID or Username",
+    reason_placeholder: "Ban reason (optional)",
+    host_name_placeholder: "Host Name",
+    password_placeholder: "Password",
+    write_links_placeholder: "Write links here...",
+    write_announcement_placeholder: "Write announcement here...",
+    image_url_placeholder: "Image URL (optional)",
+    mention_announcements: "MENTION @ANNOUNCEMENTS",
+    send_announcement_btn: "SEND ANNOUNCEMENT",
+    update_downloads: "Update Downloads",
+    new_name_placeholder: "New Name",
+    success_name: "Name updated",
+    success_ban: "User banned",
+    success_unban: "User unbanned",
+    success_kick: "User kicked",
+    success_announcement: "Announcement sent successfully",
+    success_downloads: "Download links updated",
+    error_notfound: "User not found",
+    error_noban: "This user cannot be banned",
+    error_toolong: "Message is too long",
+    error_missing: "Missing required data",
+    error_server: "Server error",
+    confirm_btn: "CONNECTED!",
+    generating_code: "GENERATING CODE...",
+    confirm_instruction: "Click the button for the Launcher to detect your account."
+  }
+};
+
+// Ruta para cambiar idioma
+router.get('/api/v2/set-lang', (req, res) => {
+  const { lang } = req.query;
+  if (['es', 'en'].includes(lang)) {
+    res.cookie('leilos_lang', lang, { maxAge: 365 * 24 * 60 * 60 * 1000, path: '/' });
+  }
+  res.redirect('back');
+});
+
 // Almacén temporal de códigos para el launcher (en memoria)
 if (!global.launcherCodes) global.launcherCodes = new Map();
 
@@ -24,6 +152,8 @@ router.get('/api/v2/discord/login', (req, res) => {
 
 // 1.1 Iniciar sesión específico para el Launcher (Manual ID)
 router.get('/api/launcher/login', (req, res) => {
+  const lang = req.cookies?.leilos_lang || 'es';
+  const t = translations[lang];
   res.send(`
     <html>
       <head>
@@ -75,17 +205,24 @@ router.get('/api/launcher/login', (req, res) => {
             font-weight: 800; cursor: pointer; text-transform: uppercase;
           }
           .error { color: #ff4444; font-size: 0.9rem; margin-top: 10px; }
+          .lang-selector { position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; }
+          .lang-btn { color: var(--text-muted); text-decoration: none; font-size: 0.7rem; font-family: 'Orbitron', sans-serif; }
+          .lang-btn.active { color: var(--primary); }
         </style>
       </head>
       <body>
+        <div class="lang-selector">
+          <a href="/api/v2/set-lang?lang=es" class="lang-btn ${lang === 'es' ? 'active' : ''}">ES</a>
+          <a href="/api/v2/set-lang?lang=en" class="lang-btn ${lang === 'en' ? 'active' : ''}">EN</a>
+        </div>
         <div class="card">
-          <h1>.v2 | ACCESO</h1>
+          <h1>.v2 | ${lang === 'es' ? 'ACCESO' : 'ACCESS'}</h1>
           <form action="/api/launcher/login" method="POST">
             <div class="input-group">
-              <input type="text" name="discordId" placeholder="Introduce tu ID de Usuario" required>
+              <input type="text" name="discordId" placeholder="${lang === 'es' ? 'Introduce tu ID de Usuario' : 'Enter your User ID'}" required>
             </div>
-            <button type="submit">ACCEDER</button>
-            ${req.query.error ? '<div class="error">Usuario no encontrado o no registrado.</div>' : ''}
+            <button type="submit">${lang === 'es' ? 'ACCEDER' : 'ACCESS'}</button>
+            ${req.query.error ? `<div class="error">${t.error_notfound}.</div>` : ''}
           </form>
         </div>
       </body>
@@ -107,6 +244,8 @@ router.post('/api/launcher/login', async (req, res) => {
 // Nueva vista de confirmación tras poner el ID manual
 router.get('/api/launcher/confirm-view', async (req, res) => {
   const { id } = req.query;
+  const lang = req.cookies?.leilos_lang || 'es';
+  const t = translations[lang];
   const user = await User.findOne({ discordId: id });
   if (!user) return res.redirect('/api/launcher/login?error=1');
 
@@ -174,10 +313,10 @@ router.get('/api/launcher/confirm-view', async (req, res) => {
       <body>
         <div class="card">
           <img class="avatar" src="${avatarUrl}" />
-          <h1>BIENVENIDO A .v2, ${user.username.toUpperCase()}!</h1>
-          <p>Cuenta vinculada correctamente.</p>
+          <h1>${t.welcome}, ${user.username.toUpperCase()}!</h1>
+          <p>${t.account_linked}</p>
           <div class="user-id">${user.username}</div>
-          <button onclick="confirmLogin()">CONFIRMAR Y ENTRAR</button>
+          <button onclick="confirmLogin()">${t.confirm_and_enter}</button>
         </div>
         <script>
           function confirmLogin() {
@@ -186,7 +325,7 @@ router.get('/api/launcher/confirm-view', async (req, res) => {
             console.log("LOGIN_SUCCESS:${user.username}");
             
             const btn = document.querySelector('button');
-            btn.innerText = "¡CONECTADO!";
+            btn.innerText = "${t.confirm_btn}";
             btn.disabled = true;
 
             setTimeout(() => window.close(), 1500);
@@ -225,6 +364,8 @@ router.get('/api/launcher/confirm', async (req, res) => {
 // 1.3 Página final de éxito (donde llega el launcher)
 router.get('/api/launcher/success', (req, res) => {
   const { code } = req.query;
+  const lang = req.cookies?.leilos_lang || 'es';
+  const t = translations[lang];
   res.send(`
     <html>
       <head>
@@ -236,8 +377,8 @@ router.get('/api/launcher/success', (req, res) => {
       </head>
       <body>
         <div class="msg">
-          <h2 style="color: #D4AF37;">¡CONECTADO!</h2>
-          <p>El launcher está procesando tu entrada...</p>
+          <h2 style="color: #D4AF37;">${t.connected}!</h2>
+          <p>${lang === 'es' ? 'El launcher está procesando tu entrada...' : 'The launcher is processing your entry...'}</p>
           <code style="background: #000; padding: 5px;">${code}</code>
         </div>
         <script>
@@ -438,11 +579,13 @@ router.get('/api/v2/discord/callback', async (req, res) => {
 
     // --- Lógica de Respuesta según el State ---
     if (state === 'launcher') {
+      const lang = req.cookies?.leilos_lang || 'es';
+      const t = translations[lang];
       // Respuesta especial para el Launcher con estilos de Leilos
       return res.send(`
         <html>
           <head>
-            <title>.v2 | Conectado</title>
+            <title>.v2 | ${t.connected}</title>
             <style>
               @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@300;400;600;700&display=swap');
               :root {
@@ -502,19 +645,19 @@ router.get('/api/v2/discord/callback', async (req, res) => {
           <body>
             <div class="card">
               <img class="avatar" src="${discordUser.avatar ? `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png` : 'https://cdn.discordapp.com/embed/avatars/0.png'}" />
-              <h1>BIENVENIDO A .v2, ${user.username.toUpperCase()}!</h1>
-              <p>Sesión iniciada correctamente.</p>
+              <h1>${t.welcome}, ${user.username.toUpperCase()}!</h1>
+              <p>${t.account_linked}</p>
               
               <div class="user-id" id="username-display">${user.username}</div>
               
-              <button class="btn-confirm" onclick="confirmLogin()">CONFIRMAR Y ENTRAR</button>
+              <button class="btn-confirm" onclick="confirmLogin()">${t.confirm_and_enter}</button>
               
-              <p style="font-size: 0.8rem; margin-top: 20px; opacity: 0.5;">Pulsa el botón para que el Launcher detecte tu cuenta.</p>
+              <p style="font-size: 0.8rem; margin-top: 20px; opacity: 0.5;">${t.confirm_instruction}</p>
             </div>
             <script>
               async function confirmLogin() {
                 const btn = document.querySelector('.btn-confirm');
-                btn.innerText = "GENERANDO CÓDIGO...";
+                btn.innerText = "${t.generating_code}";
                 btn.disabled = true;
 
                 try {
@@ -522,7 +665,7 @@ router.get('/api/v2/discord/callback', async (req, res) => {
                   window.location.href = "/api/launcher/confirm?id=${user.discordId}";
                 } catch (e) {
                   alert("Error al confirmar sesión.");
-                  btn.innerText = "CONFIRMAR Y ENTRAR";
+                  btn.innerText = "${t.confirm_and_enter}";
                   btn.disabled = false;
                 }
               }
@@ -573,6 +716,8 @@ router.post('/api/v2/discord/register', async (req, res) => {
 router.get('/api/v2/dashboard', async (req, res) => {
   const { id } = req.query;
   const sessionUser = req.cookies?.leilos_session;
+  const lang = req.cookies?.leilos_lang || 'es';
+  const t = translations[lang];
 
   if (!sessionUser) return res.redirect('/api/v2/discord/login');
   if (!id) return res.redirect(`/api/v2/dashboard?id=${sessionUser}`);
@@ -824,6 +969,29 @@ router.get('/api/v2/dashboard', async (req, res) => {
           .alert-success { background: rgba(0, 255, 0, 0.05); color: var(--success); border-color: rgba(0, 255, 0, 0.2); }
           .alert-danger { background: rgba(255, 0, 0, 0.05); color: var(--danger); border-color: rgba(255, 0, 0, 0.2); }
           
+          .lang-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+          }
+          .lang-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-family: 'Orbitron', sans-serif;
+            text-decoration: none;
+            transition: 0.3s;
+          }
+          .lang-btn.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(212, 175, 55, 0.1);
+          }
+
           @media (max-width: 768px) {
             .container { padding: 1.5rem; }
             .header { justify-content: center; text-align: center; }
@@ -842,117 +1010,120 @@ router.get('/api/v2/dashboard', async (req, res) => {
                 <p style="margin: 5px 0 0 0; color: var(--text-muted); font-weight: 600;">${user.email}</p>
               </div>
             </div>
-              <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 10px;">
-              </span>
-              <a href="/api/v2/logout" class="btn btn-danger" style="padding: 6px 12px; font-size: 0.7rem;">Cerrar Sesión</a>
+            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 10px;">
+              <div class="lang-selector">
+                <a href="/api/v2/set-lang?lang=es" class="lang-btn ${lang === 'es' ? 'active' : ''}">ES</a>
+                <a href="/api/v2/set-lang?lang=en" class="lang-btn ${lang === 'en' ? 'active' : ''}">EN</a>
+              </div>
+              <a href="/api/v2/logout" class="btn btn-danger" style="padding: 6px 12px; font-size: 0.7rem;">${t.logout}</a>
             </div>
           </div>
 
-          ${req.query.success ? `<div class="alert alert-success">✅ ${req.query.success === 'name' ? 'Nombre actualizado' : req.query.success === 'ban' ? 'Usuario baneado' : req.query.success === 'unban' ? 'Usuario desbaneado' : req.query.success === 'kick' ? 'Usuario expulsado' : req.query.success === 'type' ? 'Tipo de cuenta actualizado' : req.query.success === 'announcement' ? 'Anuncio enviado correctamente' : req.query.success === 'downloads' ? 'Enlaces de descarga actualizados' : 'Operación exitosa'}.</div>` : ''}
-          ${req.query.error ? `<div class="alert alert-danger">❌ ${req.query.error === 'notfound' ? 'Usuario no encontrado' : req.query.error === 'noban' ? 'Este usuario no puede ser baneado' : req.query.error === 'toolong' ? 'El mensaje es demasiado largo (máx. 2000 caracteres)' : req.query.error === 'missing' ? 'Faltan datos obligatorios' : 'Error en el servidor'}.</div>` : ''}
+          ${req.query.success ? `<div class="alert alert-success">✅ ${t['success_' + req.query.success] || t.update}.</div>` : ''}
+          ${req.query.error ? `<div class="alert alert-danger">❌ ${t['error_' + req.query.error] || t.error_server}.</div>` : ''}
 
           <div class="grid">
             <div class="card-stat">
-              <div class="label">ID de Cuenta</div>
+              <div class="label">${t.account_id}</div>
               <div class="value">${user.accountId}</div>
             </div>
             <div class="card-stat">
-              <div class="label">Discord ID</div>
+              <div class="label">${t.discord_id}</div>
               <div class="value">${user.discordId}</div>
             </div>
             <div class="card-stat">
-              <div class="label">Estado de Acceso</div>
+              <div class="label">${t.access_status}</div>
               <div class="value" style="color: ${user.banned ? 'var(--danger)' : 'var(--success)'}">
-                ${user.banned ? '⚠️ BANEADO' : '✅ ACTIVO'}
+                ${user.banned ? '⚠️ ' + t.banned : '✅ ' + t.active}
               </div>
             </div>
             <div class="card-stat">
-              <div class="label">Privilegios</div>
-              <div class="value">${user.isAdmin ? '⭐ Administrador' : '👤 Usuario'}</div>
+              <div class="label">${t.privileges}</div>
+              <div class="value">${user.isAdmin ? '⭐ ' + t.admin : '👤 ' + t.user}</div>
             </div>
             <div class="card-stat">
-              <div class="label">Última IP Detectada</div>
-              <div class="value">${user.lastIp || 'No registrada'}</div>
+              <div class="label">${t.last_ip}</div>
+              <div class="value">${user.lastIp || t.not_registered}</div>
             </div>
             <div class="card-stat">
-              <div class="label">Sesiones Activas</div>
-              <div class="value">${activeSessions} dispositivo(s)</div>
+              <div class="label">${t.active_sessions}</div>
+              <div class="value">${activeSessions} ${t.devices}</div>
             </div>
           </div>
 
           ${adminCheck && adminCheck.isAdmin ? `
-            <div class="section-title">🛡️ Panel de Administración</div>
+            <div class="section-title">🛡️ ${t.admin_panel}</div>
             <div class="grid" style="grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
               <div style="display: flex; flex-direction: column; gap: 1.5rem;">
                 <div class="card-stat">
-                  <div class="label">Gestionar Usuario (ID o Nombre)</div>
+                  <div class="label">${t.manage_user}</div>
                   <form action="/api/v2/admin/manage" method="POST">
                     <div class="form-group">
-                      <input type="text" name="target" placeholder="Discord ID o Username" required>
+                      <input type="text" name="target" placeholder="${t.manage_user_placeholder}" required>
                     </div>
                     <div class="form-group" id="reason-container" style="display: none;">
-                      <input type="text" name="reason" placeholder="Motivo del baneo (opcional)">
+                      <input type="text" name="reason" placeholder="${t.reason_placeholder}">
                     </div>
                     <div style="display: flex; gap: 8px;">
-                      <button type="submit" name="action" value="ban" class="btn btn-danger" style="flex: 1; padding: 10px 5px; font-size: 0.8rem;" onclick="document.getElementById('reason-container').style.display='block'; if(this.dataset.clicked !== 'true') { this.dataset.clicked = 'true'; return false; }">Ban</button>
-                      <button type="submit" name="action" value="unban" class="btn" style="flex: 1; border-color: var(--success); color: var(--success); padding: 10px 5px; font-size: 0.8rem;">Unban</button>
-                      <button type="submit" name="action" value="kick" class="btn" style="flex: 1; border-color: #ff9900; color: #ff9900; padding: 10px 5px; font-size: 0.8rem;">Kick</button>
+                      <button type="submit" name="action" value="ban" class="btn btn-danger" style="flex: 1; padding: 10px 5px; font-size: 0.8rem;" onclick="document.getElementById('reason-container').style.display='block'; if(this.dataset.clicked !== 'true') { this.dataset.clicked = 'true'; return false; }">${t.ban}</button>
+                      <button type="submit" name="action" value="unban" class="btn" style="flex: 1; border-color: var(--success); color: var(--success); padding: 10px 5px; font-size: 0.8rem;">${t.unban}</button>
+                      <button type="submit" name="action" value="kick" class="btn" style="flex: 1; border-color: #ff9900; color: #ff9900; padding: 10px 5px; font-size: 0.8rem;">${t.kick}</button>
                     </div>
                   </form>
                 </div>
 
                 <div class="card-stat">
-                  <div class="label">Crear Cuenta Host</div>
+                  <div class="label">${t.create_host}</div>
                   <form action="/api/v2/admin/manage" method="POST">
                     <div class="form-group">
-                      <input type="text" name="username" placeholder="Nombre del Host" required>
+                      <input type="text" name="username" placeholder="${t.host_name_placeholder}" required>
                     </div>
                     <div class="form-group">
-                      <input type="password" name="password" placeholder="Contraseña" required>
+                      <input type="password" name="password" placeholder="${t.password_placeholder}" required>
                     </div>
-                    <button type="submit" name="action" value="create-host" class="btn" style="width: 100%; border-color: var(--primary); color: var(--primary); padding: 10px;">Crear Host</button>
+                    <button type="submit" name="action" value="create-host" class="btn" style="width: 100%; border-color: var(--primary); color: var(--primary); padding: 10px;">${t.create_host}</button>
                   </form>
                 </div>
 
                 <div class="card-stat">
-                  <div class="label">Herramientas del Servidor</div>
+                  <div class="label">${t.server_tools}</div>
                   <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
                     <a href="/logs" target="_blank" class="btn" style="text-align: center; padding: 10px;">Logs</a>
-                    <a href="/status" target="_blank" class="btn" style="text-align: center; padding: 10px;">Estado</a>
+                    <a href="/status" target="_blank" class="btn" style="text-align: center; padding: 10px;">Status</a>
                   </div>
                 </div>
               </div>
 
               <div style="display: flex; flex-direction: column;">
                 <div class="card-stat" style="height: 100%; display: flex; flex-direction: column;">
-                  <div class="label">📥 Gestionar Descargas</div>
+                  <div class="label">📥 ${t.manage_downloads}</div>
                   <form action="/api/v2/admin/manage" method="POST" style="flex: 1; display: flex; flex-direction: column;">
                     <div class="form-group" style="flex: 1; display: flex; position: relative;">
-                      <textarea name="message" id="downloads-text" maxlength="2000" placeholder="Escribe aquí los enlaces..." required style="width: 100%; background: #000; color: white; border: 1px solid var(--border); padding: 1.2rem; border-radius: 8px; font-family: 'Rajdhani', sans-serif; font-size: 0.95rem; min-height: 250px; resize: none; line-height: 1.4; outline: none;">${lastDownloadsMessage}</textarea>
+                      <textarea name="message" id="downloads-text" maxlength="2000" placeholder="${t.write_links_placeholder}" required style="width: 100%; background: #000; color: white; border: 1px solid var(--border); padding: 1.2rem; border-radius: 8px; font-family: 'Rajdhani', sans-serif; font-size: 0.95rem; min-height: 250px; resize: none; line-height: 1.4; outline: none;">${lastDownloadsMessage}</textarea>
                       <div id="downloads-count" style="position: absolute; bottom: 10px; right: 15px; font-size: 0.75rem; color: var(--text-muted); font-family: 'Orbitron', sans-serif;">0 / 2000</div>
                     </div>
-                    <button type="submit" name="action" value="downloads" class="btn" style="width: 100%; border-color: var(--primary); color: var(--primary); padding: 12px; margin-top: 1rem;">Actualizar Descargas</button>
+                    <button type="submit" name="action" value="downloads" class="btn" style="width: 100%; border-color: var(--primary); color: var(--primary); padding: 12px; margin-top: 1rem;">${t.update_downloads}</button>
                   </form>
                 </div>
               </div>
 
               <div style="display: flex; flex-direction: column;">
                 <div class="card-stat" style="height: 100%; display: flex; flex-direction: column;">
-                  <div class="label">📢 Enviar Anuncio Bot</div>
+                  <div class="label">📢 ${t.send_announcement}</div>
                   <form action="/api/v2/admin/manage" method="POST" style="flex: 1; display: flex; flex-direction: column;">
                     <div class="form-group" style="flex: 1; display: flex; position: relative;">
-                      <textarea name="message" id="announcement-text" maxlength="2000" placeholder="Escribe el anuncio aquí..." required style="width: 100%; background: #000; color: white; border: 1px solid var(--border); padding: 1.2rem; border-radius: 8px; font-family: 'Rajdhani', sans-serif; font-size: 0.95rem; min-height: 250px; resize: none; line-height: 1.4; outline: none; margin-bottom: 10px;"></textarea>
+                      <textarea name="message" id="announcement-text" maxlength="2000" placeholder="${t.write_announcement_placeholder}" required style="width: 100%; background: #000; color: white; border: 1px solid var(--border); padding: 1.2rem; border-radius: 8px; font-family: 'Rajdhani', sans-serif; font-size: 0.95rem; min-height: 250px; resize: none; line-height: 1.4; outline: none; margin-bottom: 10px;"></textarea>
                       <div id="announcement-count" style="position: absolute; bottom: 20px; right: 15px; font-size: 0.75rem; color: var(--text-muted); font-family: 'Orbitron', sans-serif;">0 / 2000</div>
                     </div>
                     <div class="form-group" style="margin-top: 5px; margin-bottom: 5px;">
-                      <input type="text" name="imageUrl" placeholder="URL de imagen (opcional, ej: https://...)" style="width: 100%; background: #000; color: white; border: 1px solid var(--border); padding: 10px; border-radius: 4px; font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; outline: none;">
+                      <input type="text" name="imageUrl" placeholder="${t.image_url_placeholder}" style="width: 100%; background: #000; color: white; border: 1px solid var(--border); padding: 10px; border-radius: 4px; font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; outline: none;">
                     </div>
                     <div style="margin-top: 1rem; background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 8px; border: 1px solid var(--border);">
                       <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem;">
                         <input type="checkbox" name="ping" id="ping-everyone" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary);">
-                        <label for="ping-everyone" style="font-size: 0.85rem; cursor: pointer; color: var(--text-main); font-weight: 600; font-family: 'Orbitron', sans-serif;">MENCIONAR @ANNOUNCEMENTS</label>
+                        <label for="ping-everyone" style="font-size: 0.85rem; cursor: pointer; color: var(--text-main); font-weight: 600; font-family: 'Orbitron', sans-serif;">${t.mention_announcements}</label>
                       </div>
-                      <button type="submit" name="action" value="announcement" class="btn" style="width: 100%; border-color: var(--primary); color: var(--primary); padding: 12px; font-size: 0.9rem; text-transform: uppercase; font-family: 'Orbitron', sans-serif;">ENVIAR ANUNCIO</button>
+                      <button type="submit" name="action" value="announcement" class="btn" style="width: 100%; border-color: var(--primary); color: var(--primary); padding: 12px; font-size: 0.9rem; text-transform: uppercase; font-family: 'Orbitron', sans-serif;">${t.send_announcement_btn}</button>
                     </div>
                   </form>
                 </div>
@@ -978,15 +1149,15 @@ router.get('/api/v2/dashboard', async (req, res) => {
             </script>
           ` : ''}
 
-          <div class="section-title">Configuración de Cuenta</div>
+          <div class="section-title">${t.account_config}</div>
           <div class="grid">
             <div class="card-stat">
-              <div class="label">Cambiar Nombre</div>
+              <div class="label">${t.change_name}</div>
               <form action="/api/v2/user/update-name" method="POST">
                 <div class="form-group">
-                  <input type="text" name="newUsername" placeholder="${user.username}" required minlength="3">
+                  <input type="text" name="newUsername" placeholder="${t.new_name_placeholder}" required minlength="3">
                 </div>
-                <button type="submit" class="btn">Actualizar</button>
+                <button type="submit" class="btn">${t.update}</button>
               </form>
             </div>
           </div>
