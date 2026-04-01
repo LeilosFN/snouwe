@@ -14,12 +14,12 @@ Este backend es una versión personalizada de LawinserverV2 y mejorada llamada *
 - **Personalización:** Soporte para fondos de lobby personalizados (Lobby Backgrounds).
 
 ### 🤖 Integración con Discord
-- **Bot de Snouwe:** Notificaciones automáticas y comandos integrados para el Proyecto Leilos.
+- **Bot de Leilos:** Notificaciones automáticas y comandos integrados para el Proyecto Leilos.
 - **Sistema de Apelaciones:** Los usuarios pueden apelar sus sanciones directamente desde Discord.
 - **Comunicados:** Herramienta integrada para enviar anuncios oficiales al servidor de Discord.
 
 ### 🛠️ Administración y Seguridad
-- **Panel de Control:** Dashboard visual para gestión de cuentas en [api.tleilos.qzz.io](https://api.leilos.qzz.io/api/v2/discord/login).
+- **Panel de Control:** Dashboard visual para gestión de cuentas en [api.leilos.qzz.io](https://api.leilos.qzz.io/api/v2/discord/login).
 - **Seguridad:** Implementación de JWT, validación de tokens y Rate Limiting.
 - **Persistencia:** Base de datos **MongoDB** (leilos_data).
 
@@ -28,11 +28,11 @@ Este backend es una versión personalizada de LawinserverV2 y mejorada llamada *
 ## 🚀 Instalación
 
 1. **Preparar el entorno:**
-   Asegúrate de tener Node.js y MongoDB instalados.
+   Asegúrate de tener Bun y MongoDB instalados.
 
 2. **Instalar dependencias:**
    ```bash
-   npm install
+   Bun i
    ```
 
 3. **Configuración inicial:**
@@ -51,7 +51,7 @@ Este backend es una versión personalizada de LawinserverV2 y mejorada llamada *
 Este proyecto es una modificación llamada Snouwe.
 
 **IMPORTANTE:**
-- Este backend es mantenido por el equipo de Snouwe.
+- Este backend es mantenido por el equipo de Leilos.
 - Está **ESTRICTAMENTE PROHIBIDO** vender este código.
 - Su uso requiere mantener los créditos originales.
 
@@ -59,5 +59,5 @@ Este proyecto es una modificación llamada Snouwe.
 
 ## 📞 Contacto
 
-¡Gracias por apoyar a Snouwe!
+¡Gracias por apoyar a Leilos!
 
