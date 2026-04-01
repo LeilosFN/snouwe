@@ -7,8 +7,8 @@ module.exports = {
         description: "Create a new account on Leilos.",
         options: [
             {
-                name: "email",
-                description: "Your email.",
+                name: "id",
+                description: "¿Qué ID quieres tener? (Esto se usará para tu correo @leilos.tf)",
                 required: true,
                 type: 3 // string
             },
@@ -32,9 +32,17 @@ module.exports = {
         const { options } = interaction;
 
         const discordId = interaction.user.id;
-        const email = options.get("email").value;
+        const customId = options.get("id").value;
         const username = options.get("username").value;
         const password = options.get("password").value;
+
+        // Validar que el ID no tenga caracteres raros
+        const allowedIdChars = /^[a-zA-Z0-9_.-]+$/;
+        if (!allowedIdChars.test(customId)) {
+            return interaction.editReply({ content: "Tu ID solo puede contener letras, números, puntos, guiones y guiones bajos.", ephemeral: true });
+        }
+
+        const email = `${customId}@leilos.tf`.toLowerCase();
 
         await functions.registerUser(discordId, username, email, password).then(resp => {
             let embed = new MessageEmbed()

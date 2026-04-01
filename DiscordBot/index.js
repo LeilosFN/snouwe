@@ -20,32 +20,32 @@ module.exports = {
         try {
             const user = await client.users.fetch(discordId);
             const banEmbed = new EmbedBuilder()
-                .setTitle('🚫 Tu cuenta ha sido suspendida')
-                .setDescription(`Has sido baneado de **Project Leilos**.`)
+                .setTitle('🚫 Your account has been suspended')
+                .setDescription(`You account has been suspended from **Leilos**.`)
                 .setColor(0xFF0000)
                 .addFields(
-                    { name: '📝 Motivo', value: `\`${reason || 'No especificado'}\`` },
-                    { name: '⚖️ Apelaciones', value: 'Si crees que esto es un error, puedes intentar apelar usando el botón de abajo.' }
+                    { name: '📝 Reason', value: `\`${reason || 'No specified'}\`` },
+                    { name: '⚖️ Appeals', value: 'If you think this is an error, please appeal using the button below.' }
                 )
-                .setFooter({ text: 'Sistema de Seguridad Leilos' })
+                .setFooter({ text: 'Leilos - Crisutf' })
                 .setTimestamp();
 
             const row = new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
                         .setCustomId('appeal_ban')
-                        .setLabel('Apelar Baneo')
+                        .setLabel('Appeal Ban')
                         .setStyle(ButtonStyle.Primary),
                     new ButtonBuilder()
                         .setCustomId('view_ban_details')
-                        .setLabel('Detalles')
+                        .setLabel('View Details')
                         .setStyle(ButtonStyle.Secondary)
                 );
 
             await user.send({ embeds: [banEmbed], components: [row] });
             return true;
         } catch (e) {
-            console.error(`[Discord] No se pudo enviar DM a ${discordId}:`, e.message);
+            console.error(`[Discord] Failed to send DM to ${discordId}:`, e.message);
             return false;
         }
     },
@@ -53,16 +53,16 @@ module.exports = {
         try {
             const user = await client.users.fetch(discordId);
             const unbanEmbed = new EmbedBuilder()
-                .setTitle('✅ Cuenta Reactivada')
-                .setDescription(`Tu cuenta en **Project Leilos** ha sido desbaneada. ¡Ya puedes volver a jugar!`)
+                .setTitle('✅ Account Reactivated')
+                .setDescription(`Your account in **Leilos** has been unbanned. You can now play again!`)
                 .setColor(0x00FF00)
-                .setFooter({ text: 'Sistema de Seguridad Leilos' })
+                .setFooter({ text: 'Leilos - Crisutf' })
                 .setTimestamp();
 
             await user.send({ embeds: [unbanEmbed] });
             return true;
         } catch (e) {
-            console.error(`[Discord] No se pudo enviar DM de desbaneo a ${discordId}:`, e.message);
+            console.error(`[Discord] Failed to send DM to ${discordId}:`, e.message);
             return false;
         }
     },
@@ -91,7 +91,7 @@ module.exports = {
                     messageOptions.files = [imageUrl.trim()];
                 } catch (imgError) {
                     const log = require("../structs/log.js");
-                    log.error(`[Discord] URL de imagen inválida en anuncio: ${imageUrl}`);
+                    log.error(`[Discord] Invalid image URL in announcement: ${imageUrl}`);
                 }
             }
 
@@ -100,7 +100,7 @@ module.exports = {
             return true;
         } catch (e) {
             const log = require("../structs/log.js");
-            log.error(`[Discord] Error al enviar anuncio:`, e.message);
+            log.error(`[Discord] Failed to send announcement:`, e.message);
             return false;
         }
     },
@@ -122,7 +122,7 @@ module.exports = {
                 }
             } catch (e) {
                 const log = require("../structs/log.js");
-                log.bot("[Discord] No se pudieron borrar mensajes antiguos de descargas (puede ser por antigüedad).");
+                log.bot("[Discord] Failed to delete old download messages (might be due to age limit).");
             }
 
             // Enviar como mensaje de texto plano para que los emojis y el markdown se vean naturales
@@ -135,7 +135,7 @@ module.exports = {
             return true;
         } catch (e) {
             const log = require("../structs/log.js");
-            log.error(`[Discord] Error al enviar enlaces de descarga:`, e.message);
+            log.error(`[Discord] Failed to send download links:`, e.message);
             return false;
         }
     }
@@ -153,7 +153,7 @@ client.on("interactionCreate", async interaction => {
     // Only handle Buttons and Modals (for appeals), but not chat commands
     if (interaction.isChatInputCommand()) {
         return interaction.reply({ 
-            content: '❌ Los comandos de chat han sido desactivados. Por favor, usa el Dashboard web: https://api.leilos.qzz.io/api/v2/discord/login', 
+            content: '❌ Chat commands have been disabled. Please use the Leilos web panel: https://leilos.qzz.io/api/v2/discord/login', 
             flags: [64] 
         });
     }
@@ -162,10 +162,10 @@ client.on("interactionCreate", async interaction => {
     if (interaction.isButton()) {
         if (interaction.customId === 'view_ban_details') {
             const user = await User.findOne({ discordId: interaction.user.id });
-            if (!user) return interaction.reply({ content: 'No se encontró tu cuenta.', flags: [64] });
+            if (!user) return interaction.reply({ content: 'No account found.', flags: [64] });
             
             await interaction.reply({ 
-                content: `🔍 **Detalles de tu sanción:**\n- **ID de Cuenta:** ${user.accountId}\n- **Motivo:** ${user.banReason || 'No especificado'}\n- **Fecha:** ${user.lastLogin ? user.lastLogin.toLocaleString() : 'N/A'}\n\nSi crees que es un error, usa el botón de Apelar.`, 
+                content: `🔍 **Ban Details:**\n- **Account ID:** ${user.accountId}\n- **Reason:** ${user.banReason || 'No specified'}\n- **Date:** ${user.lastLogin ? user.lastLogin.toLocaleString() : 'N/A'}\n\nIf you think this is an error, please use the appeal button.`, 
                 flags: [64] 
             });
         }
@@ -196,22 +196,22 @@ client.on("interactionCreate", async interaction => {
             const isAdmin = moderators.includes(interaction.user.id) || 
                             interaction.memberPermissions?.has(PermissionFlagsBits.Administrator);
 
-            if (!isAdmin) return interaction.reply({ content: 'No tienes permiso.', flags: [64] });
+            if (!isAdmin) return interaction.reply({ content: 'No permission.', flags: [64] });
 
             const user = await User.findOneAndUpdate({ discordId }, { banned: false, banReason: '' });
             
             if (user) {
-                await interaction.reply({ content: `✅ El usuario **${user.username}** ha sido desbaneado con éxito.` });
+                await interaction.reply({ content: `✅ User **${user.username}** has been unbanned successfully.` });
                 try {
                     const discordUser = await client.users.fetch(discordId);
-                    await discordUser.send('✅ Tu apelación ha sido aceptada. ¡Tu cuenta de **Leilos** ha sido desbaneada!');
+                    await discordUser.send('✅ Your account has been unbanned successfully. **Leilos**!');
                 } catch (e) {}
             }
         }
 
         if (interaction.customId.startsWith('deny_appeal_')) {
             const discordId = interaction.customId.split('_')[1];
-            await interaction.reply({ content: `❌ Apelación rechazada para el usuario <@${discordId}>.`, flags: [64] });
+            await interaction.reply({ content: `❌ Appeal denied for user <@${discordId}>.`, flags: [64] });
         }
     }
 
@@ -236,7 +236,7 @@ client.on("interactionCreate", async interaction => {
                             { name: '📝 Razón de Apelación', value: `\`\`\`${reason}\`\`\`` },
                             { name: '🚫 Motivo del Ban', value: `\`${user?.banReason || 'No especificado'}\`` }
                         )
-                        .setFooter({ text: 'Project Leilos | Sistema de Apelaciones' })
+                        .setFooter({ text: 'Leilos - Crisutf' })
                         .setTimestamp();
 
                     const row = new ActionRowBuilder()
@@ -257,8 +257,8 @@ client.on("interactionCreate", async interaction => {
                 console.error('[Discord] Error enviando apelación al canal:', e);
             }
 
-            await interaction.reply({ 
-                content: '✅ Tu apelación ha sido enviada al canal de administración. Por favor, espera a que un moderador la revise.', 
+                await interaction.reply({ 
+                content: '✅ Your appeal has been sent to the admin channel. Please wait for a moderator to review it.', 
                 flags: [64] 
             });
         }
