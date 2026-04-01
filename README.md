@@ -2,7 +2,7 @@
 > **Estado del Proyecto:** ⚠️ *En desarrollo (Beta) - Versión v28.30.*
 > **Web Oficial:** [leilos.qzz.io](https://leilos.qzz.io)
 
-Este backend es una versión personalizada y mejorada llamada **Snouwe**, desarrollada exclusivamente para el **Proyecto Leilos**.
+Este backend es una versión personalizada de LawinserverV2 y mejorada llamada **Snouwe**, desarrollada para el **Proyecto Leilos**.
 
 ---
 
