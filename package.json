@@ -1,7 +1,7 @@
 {
-  "name": ".v2-backend",
+  "name": "snouwe-backend",
   "version": "1.0.0",
-  "description": "Backend modificado por Crisutf y el creador de esto es Lawin0129",
+  "description": "Snouwe Backend para Proyecto Leilos - v28.30",
   "main": "index.js",
   "dependencies": {
     "axios": "^1.13.6",
