@@ -22,6 +22,7 @@ app.get("/friends/api/public/list/fortnite/*/recentPlayers", (req, res) => {
 
 app.all("/friends/api/v1/*/friends/:friendId/alias", verifyToken, getRawBody, async (req, res) => {
     let friends = await Friends.findOne({ accountId: req.user.accountId });
+    if (!friends) return res.status(404).end();
 
     let validationFail = () => error.createError(
         "errors.com.leilos.tf.validation.validation_failed",
@@ -66,6 +67,7 @@ app.get("/friends/api/public/friends/:accountId", verifyToken, async (req, res) 
     let response = [];
 
     const friends = await Friends.findOne({ accountId: req.user.accountId }).lean();
+    if (!friends) return res.json(response);
 
     friends.list.accepted.forEach(acceptedFriend => {
         response.push({
@@ -206,6 +208,7 @@ app.get("/friends/api/v1/:accountId/summary", verifyToken, async (req, res) => {
 
 app.get("/friends/api/public/blocklist/*", verifyToken, async (req, res) => {
     let friends = await Friends.findOne({ accountId: req.user.accountId }).lean();
+    if (!friends) return res.json({ "blockedUsers": [] });
 
     res.json({
         "blockedUsers": friends.list.blocked.map(i => i.accountId)

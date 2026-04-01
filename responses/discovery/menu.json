@@ -25,7 +25,16 @@
               "lockStatus": "UNLOCKED",
               "lockStatusReason": "NONE",
               "isVisible": true
-            }
+            },
+            {
+                "lastVisited": null,
+                "linkCode": "playlist_showdownalt_solo",
+                "isFavorite": false,
+                "globalCCU": 1,
+                "lockStatus": "UNLOCKED",
+                "lockStatusReason": "NONE",
+                "isVisible": true
+              }
           ],
           "hasMore": false
         },
@@ -49,36 +58,11 @@
                 "lockStatus": "UNLOCKED",
                 "lockStatusReason": "NONE",
                 "isVisible": true
-              }
-            ],
-            "hasMore": false
-          }
-        ]
-      },
-      {
-        "PanelName": "Favorites_V3",
-        "PanelDisplayName": "FAVORITOS",
-        "FeatureTags": ["col:5", "homebar"],
-        "PanelType": "CuratedList",
-        "PlayHistoryType": "Favorites",
-        "FirstPage": {
-          "results": [
-            {
-              "lastVisited": null,
-              "linkCode": "playlist_defaultsolo",
-              "isFavorite": true,
-              "globalCCU": 1
-            }
-          ],
-          "hasMore": false
-        },
-        "Pages": [
-          {
-            "results": [
+              },
               {
                 "lastVisited": null,
-                "linkCode": "playlist_defaultsolo",
-                "isFavorite": true,
+                "linkCode": "playlist_showdownalt_solo",
+                "isFavorite": false,
                 "globalCCU": 1,
                 "lockStatus": "UNLOCKED",
                 "lockStatusReason": "NONE",
@@ -98,13 +82,31 @@
           "results": [
             {
               "lastVisited": null,
-              "linkCode": "welcome_banner",
+              "linkCode": "playlist_defaultsolo",
               "isFavorite": false,
               "globalCCU": 1
             },
             {
               "lastVisited": null,
-              "linkCode": "playlist_defaultsolo",
+              "linkCode": "playlist_defaultduo",
+              "isFavorite": false,
+              "globalCCU": 1
+            },
+            {
+              "lastVisited": null,
+              "linkCode": "playlist_defaulttrio",
+              "isFavorite": false,
+              "globalCCU": 1
+            },
+            {
+              "lastVisited": null,
+              "linkCode": "playlist_defaultsquad",
+              "isFavorite": false,
+              "globalCCU": 1
+            },
+            {
+              "lastVisited": null,
+              "linkCode": "playlist_campaign",
               "isFavorite": false,
               "globalCCU": 1
             }
@@ -115,68 +117,34 @@
           {
             "results": [
               {
-                "linkData": {
-                  "namespace": "fn",
-                  "mnemonic": "welcome_banner",
-                  "linkType": "External",
-                  "active": true,
-                  "disabled": false,
-                  "lockStatus": "UNLOCKED",
-                  "lockStatusReason": "NONE",
-                  "isVisible": true,
-                  "version": 1,
-                  "moderationStatus": "Approved",
-                  "accountId": "epic",
-                  "creatorName": "Epic",
-                  "descriptionTags": [],
-                  "metadata": {
-                    "age_rating_index": 0,
-                    "image_url": "https://api.leilos.qzz.io/images/leilos/bg1.png",
-                    "title": "Crisutf",
-                    "tagline": "Disfruta de la mejor experiencia en nuestro servidor privado."
-                  }
-                },
                 "lastVisited": null,
-                "linkCode": "welcome_banner",
-                "isFavorite": false
+                "linkCode": "playlist_defaultsolo",
+                "isFavorite": false,
+                "globalCCU": 1
               },
               {
-                "linkData": {
-                  "namespace": "fn",
-                  "mnemonic": "playlist_defaultsolo",
-                  "linkType": "BR:Playlist",
-                  "active": true,
-                  "disabled": false,
-                  "lockStatus": "UNLOCKED",
-                  "lockStatusReason": "NONE",
-                  "isVisible": true,
-                  "version": 95,
-                  "moderationStatus": "Approved",
-                  "accountId": "epic",
-                  "creatorName": "Epic",
-                  "descriptionTags": [],
-                  "metadata": {
-                    "age_rating_index": 0,
-                    "image_url": "https://api.leilos.qzz.io/images/leilos/Arena_Playlist.png",
-                    "title": "Arena",
-                    "tagline": "Arena Solo",
-                    "alt_title": {
-                      "en": "Arena",
-                      "es": "Arena",
-                      "es-419": "Arena",
-                      "es-MX": "Arena"
-                    },
-                    "matchmaking": {
-                      "override_playlist": "playlist_showdownalt_solo"
-                    }
-                  }
-                },
                 "lastVisited": null,
-                "linkCode": "playlist_showdownalt_solo",
+                "linkCode": "playlist_defaultduo",
                 "isFavorite": false,
-                "lockStatus": "UNLOCKED",
-                "isVisible": true,
-                "age_rating_index": 0
+                "globalCCU": 1
+              },
+              {
+                "lastVisited": null,
+                "linkCode": "playlist_defaulttrio",
+                "isFavorite": false,
+                "globalCCU": 1
+              },
+              {
+                "lastVisited": null,
+                "linkCode": "playlist_defaultsquad",
+                "isFavorite": false,
+                "globalCCU": 1
+              },
+              {
+                "lastVisited": null,
+                "linkCode": "playlist_campaign",
+                "isFavorite": false,
+                "globalCCU": 1
               }
             ],
             "hasMore": false
@@ -192,25 +160,16 @@
           "results": [
             {
               "lastVisited": null,
+              "linkCode": "playlist_test_cup",
+              "isFavorite": false,
+              "globalCCU": 1,
+              "lockStatus": "UNLOCKED",
+              "lockStatusReason": "NONE",
+              "isVisible": true
+            },
+            {
+              "lastVisited": null,
               "linkCode": "playlist_showdownalt_solo",
-              "isFavorite": false,
-              "globalCCU": 1,
-              "lockStatus": "UNLOCKED",
-              "lockStatusReason": "NONE",
-              "isVisible": true
-            },
-            {
-              "lastVisited": null,
-              "linkCode": "playlist_showdownalt_duos",
-              "isFavorite": false,
-              "globalCCU": 1,
-              "lockStatus": "UNLOCKED",
-              "lockStatusReason": "NONE",
-              "isVisible": true
-            },
-            {
-              "lastVisited": null,
-              "linkCode": "playlist_showdownalt_trios",
               "isFavorite": false,
               "globalCCU": 1,
               "lockStatus": "UNLOCKED",
@@ -225,25 +184,16 @@
             "results": [
               {
                 "lastVisited": null,
+                "linkCode": "playlist_test_cup",
+                "isFavorite": false,
+                "globalCCU": 1,
+                "lockStatus": "UNLOCKED",
+                "lockStatusReason": "NONE",
+                "isVisible": true
+              },
+              {
+                "lastVisited": null,
                 "linkCode": "playlist_showdownalt_solo",
-                "isFavorite": false,
-                "globalCCU": 1,
-                "lockStatus": "UNLOCKED",
-                "lockStatusReason": "NONE",
-                "isVisible": true
-              },
-              {
-                "lastVisited": null,
-                "linkCode": "playlist_showdownalt_duos",
-                "isFavorite": false,
-                "globalCCU": 1,
-                "lockStatus": "UNLOCKED",
-                "lockStatusReason": "NONE",
-                "isVisible": true
-              },
-              {
-                "lastVisited": null,
-                "linkCode": "playlist_showdownalt_trios",
                 "isFavorite": false,
                 "globalCCU": 1,
                 "lockStatus": "UNLOCKED",
@@ -310,6 +260,75 @@
                   "lockStatusReason": "NONE",
                   "isVisible": true,
                   "age_rating_index": 0
+                },
+                {
+                  "lastVisited": null,
+                  "linkCode": "playlist_defaultduo",
+                  "isFavorite": false,
+                  "globalCCU": 1,
+                  "lockStatus": "UNLOCKED",
+                  "lockStatusReason": "NONE",
+                  "isVisible": true,
+                  "age_rating_index": 0
+                },
+                {
+                  "lastVisited": null,
+                  "linkCode": "playlist_defaulttrio",
+                  "isFavorite": false,
+                  "globalCCU": 1,
+                  "lockStatus": "UNLOCKED",
+                  "lockStatusReason": "NONE",
+                  "isVisible": true,
+                  "age_rating_index": 0
+                },
+                {
+                  "lastVisited": null,
+                  "linkCode": "playlist_defaultsquad",
+                  "isFavorite": false,
+                  "globalCCU": 1,
+                  "lockStatus": "UNLOCKED",
+                  "lockStatusReason": "NONE",
+                  "isVisible": true,
+                  "age_rating_index": 0
+                },
+                {
+                  "lastVisited": null,
+                  "linkCode": "playlist_campaign",
+                  "isFavorite": false,
+                  "globalCCU": 1,
+                  "lockStatus": "UNLOCKED",
+                  "lockStatusReason": "NONE",
+                  "isVisible": true,
+                  "age_rating_index": 0
+                }
+              ],
+              "hasMore": false
+            }
+          },
+          {
+            "PanelName": "Competitive",
+            "PanelDisplayName": "COMPETICIÓN",
+            "FeatureTags": ["col:5"],
+            "PanelType": "CuratedList",
+            "FirstPage": {
+              "results": [
+                {
+                  "lastVisited": null,
+                  "linkCode": "playlist_test_cup",
+                  "isFavorite": false,
+                  "globalCCU": 1,
+                  "lockStatus": "UNLOCKED",
+                  "lockStatusReason": "NONE",
+                  "isVisible": true
+                },
+                {
+                  "lastVisited": null,
+                  "linkCode": "playlist_showdownalt_solo",
+                  "isFavorite": false,
+                  "globalCCU": 1,
+                  "lockStatus": "UNLOCKED",
+                  "lockStatusReason": "NONE",
+                  "isVisible": true
                 }
               ],
               "hasMore": false

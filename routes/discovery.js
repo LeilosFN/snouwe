@@ -97,8 +97,8 @@ app.post("/api/v1/fortnite-br/surfaces/*/target", (req, res) => {
                         ],
                         _type: "FullScreenBackground",
                     },
-                    FullScreenBody: "LEILOS Backend",
-                    FullScreenTitle: "LEILOS",
+                    FullScreenBody: "SNOUWE Backend",
+                    FullScreenTitle: "SNOUWE",
                     TeaserBackground: {
                         Image: [
                             {
@@ -109,7 +109,7 @@ app.post("/api/v1/fortnite-br/surfaces/*/target", (req, res) => {
                         ],
                         _type: "TeaserBackground",
                     },
-                    TeaserTitle: "LEILOS",
+                    TeaserTitle: "SNOUWE",
                     VerticalTextLayout: false,
                 },
                 contentSchemaName: "DynamicMotd",
@@ -140,7 +140,7 @@ app.post("/api/v1/assets/Fortnite/*", (req, res) => {
                         "promotedAt": new Date().toISOString()
                     },
                     "assetData": {
-                        "AnalyticsId": "LEILOS",
+                        "AnalyticsId": "SNOUWE",
                         "SurfaceName": "CreativeDiscoverySurface_Frontend",
                         "primaryAssetId": "FortCreativeDiscoverySurface:CreativeDiscoverySurface_Frontend",
                         "TestCohorts": discoveryMenu.TestCohorts

@@ -2,7 +2,7 @@
     "namespace": "fn",
     "accountId": "epic",
     "creatorName": "Epic",
-    "mnemonic": "playlist_defaultsolo",
+    "mnemonic": "playlist_showdownalt_solo",
     "linkType": "BR:Playlist",
     "metadata": {
         "age_rating_index": 0,
@@ -28,16 +28,16 @@
             "es-419": "Arena",
             "tr": "Tekli"
         },
-        "image_url": "http://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png",
+        "image_url": "https://api.leilos.qzz.io/images/gamemodes/png/Arena_Playlist.png",
         "product_tag": "Product.BR.Build.Solo",
         "image_urls": {
-            "url_s": "http://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png",
-            "url_xs": "http://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png",
-            "url_m": "http://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png",
-            "url": "http://cdn.leilos.qzz.io/public/media/images/gamemodes/Arena_Playlist.png"
+            "url_s": "https://api.leilos.qzz.io/images/gamemodes/png/Arena_Playlist.png",
+            "url_xs": "https://api.leilos.qzz.io/images/gamemodes/png/Arena_Playlist.png",
+            "url_m": "https://api.leilos.qzz.io/images/gamemodes/png/Arena_Playlist.png",
+            "url": "https://api.leilos.qzz.io/images/gamemodes/png/Arena_Playlist.png"
         },
         "matchmaking": {
-            "override_playlist": "playlist_defaultsolo"
+            "override_playlist": "playlist_showdownalt_solo"
         },
         "video_vuid": "taqdZkWyokbCyEFWld",
         "title": "Arena"

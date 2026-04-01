@@ -149,6 +149,11 @@ app.post("/fortnite/api/game/v2/profile/*/client/GiftCatalogEntry", verifyToken,
     );
 
     let sender = await Friends.findOne({ accountId: req.user.accountId }).lean();
+    if (!sender) return error.createError(
+        "errors.com.leilos.tf.friends.no_relationship",
+        `User ${req.user.accountId} is not friends with any user`,
+        [req.user.accountId], 28004, undefined, 403, res
+    );
 
     for (let receiverId of req.body.receiverAccountIds) {
         if (typeof receiverId != "string") return error.createError(

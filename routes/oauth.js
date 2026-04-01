@@ -13,7 +13,7 @@ const router = express.Router();
 const translations = {
   es: {
     dashboard_title: "Panel de Control",
-    welcome: "BIENVENIDO A .v2",
+    welcome: "BIENVENIDO A Snouwe",
     account_linked: "Cuenta vinculada correctamente.",
     confirm_and_enter: "CONFIRMAR Y ENTRAR",
     logout: "Cerrar Sesión",
@@ -54,13 +54,18 @@ const translations = {
     send_announcement_btn: "ENVIAR ANUNCIO",
     update_downloads: "Actualizar Descargas",
     new_name_placeholder: "Nuevo Nombre",
+    change_id: "Cambiar ID de Correo",
+    new_id_placeholder: "Nuevo ID (ej: mi_usuario)",
     success_name: "Nombre actualizado",
+    success_id: "ID de correo actualizado",
     success_ban: "Usuario baneado",
     success_unban: "Usuario desbaneado",
     success_kick: "Usuario expulsado",
     success_announcement: "Anuncio enviado correctamente",
     success_downloads: "Enlaces de descarga actualizados",
     error_notfound: "Usuario no encontrado",
+    error_exists: "Este ID ya está en uso",
+    error_invalid_id: "ID inválido (solo letras, números, puntos y guiones)",
     error_noban: "Este usuario no puede ser baneado",
     error_toolong: "El mensaje es demasiado largo",
     error_missing: "Faltan datos obligatorios",
@@ -71,7 +76,7 @@ const translations = {
   },
   en: {
     dashboard_title: "Control Panel",
-    welcome: "WELCOME TO .v2",
+    welcome: "WELCOME TO Snouwe",
     account_linked: "Account linked successfully.",
     confirm_and_enter: "CONFIRM AND ENTER",
     logout: "Logout",
@@ -112,13 +117,18 @@ const translations = {
     send_announcement_btn: "SEND ANNOUNCEMENT",
     update_downloads: "Update Downloads",
     new_name_placeholder: "New Name",
+    change_id: "Change Email ID",
+    new_id_placeholder: "New ID (e.g., my_user)",
     success_name: "Name updated",
+    success_id: "Email ID updated",
     success_ban: "User banned",
     success_unban: "User unbanned",
     success_kick: "User kicked",
     success_announcement: "Announcement sent successfully",
     success_downloads: "Download links updated",
     error_notfound: "User not found",
+    error_exists: "This ID is already in use",
+    error_invalid_id: "Invalid ID (letters, numbers, dots, and dashes only)",
     error_noban: "This user cannot be banned",
     error_toolong: "Message is too long",
     error_missing: "Missing required data",
@@ -157,7 +167,7 @@ router.get('/api/launcher/login', (req, res) => {
   res.send(`
     <html>
       <head>
-        <title>.v2 | Login</title>
+        <title>Snouwe | Login</title>
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@300;400;600;700&display=swap');
           :root {
@@ -216,7 +226,7 @@ router.get('/api/launcher/login', (req, res) => {
           <a href="/api/v2/set-lang?lang=en" class="lang-btn ${lang === 'en' ? 'active' : ''}">EN</a>
         </div>
         <div class="card">
-          <h1>.v2 | ${lang === 'es' ? 'ACCESO' : 'ACCESS'}</h1>
+          <h1>Snouwe | ${lang === 'es' ? 'ACCESO' : 'ACCESS'}</h1>
           <form action="/api/launcher/login" method="POST">
             <div class="input-group">
               <input type="text" name="discordId" placeholder="${lang === 'es' ? 'Introduce tu ID de Usuario' : 'Enter your User ID'}" required>
@@ -256,7 +266,7 @@ router.get('/api/launcher/confirm-view', async (req, res) => {
   res.send(`
     <html>
       <head>
-        <title>.v2  | Confirmar</title>
+        <title>Snouwe  | Confirmar</title>
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@300;400;600;700&display=swap');
           :root {
@@ -474,7 +484,7 @@ router.get('/api/v2/discord/callback', async (req, res) => {
         return res.send(`
         <html>
           <head>
-            <title>.v2 | Error</title>
+            <title>Snouwe | Error</title>
             <style>
               @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@300;400;600;700&display=swap');
               :root {
@@ -544,29 +554,96 @@ router.get('/api/v2/discord/callback', async (req, res) => {
     let user = await User.findOne({ discordId: discordUser.id });
 
     if (!user || !user.username || !user.created) {
-      // Si no existe o está incompleto, crear automáticamente con contraseña 1234567890
-      const moderators = JSON.parse(process.env.MODERATORS || "[]");
-      const isAdmin = moderators.includes(discordUser.id) || isHighRole;
+      // Si no existe, mostramos el formulario para elegir el ID
+      const lang = req.cookies?.leilos_lang || 'es';
+      const t = translations[lang];
 
-      // Si ya existía uno incompleto o corrupto, lo eliminamos
-      await User.deleteOne({ discordId: discordUser.id });
+      return res.send(`
+        <html>
+          <head>
+            <title>Snouwe | Registro</title>
+            <style>
+              @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@300;400;600;700&display=swap');
+              :root {
+                --primary: #D4AF37;
+                --bg-dark: #050505;
+                --bg-card: #0a0a0a;
+                --text-main: #ffffff;
+                --gold-gradient: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+              }
+              body { 
+                font-family: 'Rajdhani', sans-serif; 
+                background: var(--bg-dark); 
+                color: var(--text-main); 
+                display: flex; 
+                align-items: center; 
+                justify-content: center; 
+                height: 100vh; 
+                margin: 0;
+                text-align: center;
+              }
+              .card {
+                background: var(--bg-card);
+                padding: 3rem;
+                border-radius: 12px;
+                border: 1px solid rgba(212, 175, 55, 0.2);
+                box-shadow: 0 0 30px rgba(0,0,0,0.5);
+                max-width: 450px;
+                width: 90%;
+              }
+              h1 { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: var(--primary); margin-bottom: 1.5rem; }
+              p { color: #888; font-size: 1.1rem; margin-bottom: 2rem; }
+              .form-group { margin-bottom: 1.5rem; text-align: left; }
+              label { display: block; margin-bottom: 0.5rem; color: var(--primary); font-family: 'Orbitron', sans-serif; font-size: 0.8rem; }
+              input {
+                width: 100%;
+                padding: 12px;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(212, 175, 55, 0.3);
+                border-radius: 4px;
+                color: #fff;
+                font-family: 'Rajdhani', sans-serif;
+                font-size: 1.1rem;
+                outline: none;
+                transition: border-color 0.3s;
+              }
+              input:focus { border-color: var(--primary); }
+              .btn-confirm {
+                display: block; width: 100%; padding: 16px; margin-top: 1rem;
+                background: var(--gold-gradient); color: #000;
+                font-family: 'Orbitron', sans-serif; font-weight: 800; text-transform: uppercase;
+                border: none; border-radius: 4px; cursor: pointer;
+                transition: transform 0.2s, box-shadow 0.2s;
+              }
+              .btn-confirm:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+            </style>
+          </head>
+          <body>
+            <div class="card">
+              <h1>${t.welcome || 'Welcome'}, ${discordUser.username.toUpperCase()}!</h1>
+              <p>Please choose your account ID before continuing.</p>
+              
+              <form action="/api/v2/discord/register" method="POST">
+                <input type="hidden" name="discordId" value="${discordUser.id}">
+                <input type="hidden" name="username" value="${discordUser.username}">
+                <input type="hidden" name="avatar" value="${discordUser.avatar || ''}">
+                <input type="hidden" name="state" value="${state || ''}">
+                <input type="hidden" name="isHighRole" value="${isHighRole}">
+                
+                <div class="form-group">
+                  <label>What ID would you like to have?</label>
+                  <input type="text" name="customId" placeholder="Ej: mi_usuario" required minlength="3" pattern="[a-zA-Z0-9_.-]+">
+                  <small style="color: #666; font-size: 0.8rem; margin-top: 5px; display: block;">
+                    Tu correo será: ID@leilos.tf
+                  </small>
+                </div>
 
-      const resp = await functions.registerUser(discordUser.id, discordUser.username);
-
-      if (resp.status >= 400) {
-        return res.status(resp.status).send(resp.message);
-      }
-
-      // Actualizamos avatar e isAdmin
-      await User.updateOne({ discordId: discordUser.id }, { 
-        avatar: discordUser.avatar || '', 
-        isAdmin, 
-        isWhitelisted: isAdmin,
-        lastIp: req.ip,
-        lastLogin: new Date()
-      });
-
-      user = await User.findOne({ discordId: discordUser.id });
+                <button type="submit" class="btn-confirm">CREAR CUENTA</button>
+              </form>
+            </div>
+          </body>
+        </html>
+      `);
     } else {
       // Si el usuario existe, actualizar su avatar e IP
       await User.updateOne({ discordId: discordUser.id }, { 
@@ -585,7 +662,7 @@ router.get('/api/v2/discord/callback', async (req, res) => {
       return res.send(`
         <html>
           <head>
-            <title>.v2 | ${t.connected}</title>
+            <title>Snouwe | ${t.connected}</title>
             <style>
               @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@300;400;600;700&display=swap');
               :root {
@@ -687,25 +764,45 @@ router.get('/api/v2/discord/callback', async (req, res) => {
 
 // 3. Registro final
 router.post('/api/v2/discord/register', async (req, res) => {
-  const { discordId, username, password, avatar, isHighRole } = req.body;
+  const { discordId, username, password, avatar, isHighRole, customId, state } = req.body;
   const moderators = JSON.parse(process.env.MODERATORS || "[]");
 
   try {
-    const isAdmin = moderators.includes(discordId) || isHighRole; 
+    const isAdmin = moderators.includes(discordId) || isHighRole === 'true'; 
     
     // Si ya existía uno incompleto o corrupto, lo eliminamos para crear el nuevo correctamente
     await User.deleteOne({ discordId });
 
-    const resp = await functions.registerUser(discordId, username, `${discordId}@leilos.tf`, password);
+    const resp = await functions.registerUser(discordId, username, undefined, password, customId);
 
     if (resp.status >= 400) {
-      return res.status(resp.status).send(resp.message);
+      return res.status(resp.status).send(`
+        <html>
+          <body style="background: #050505; color: #ff4444; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh;">
+            <div style="text-align: center;">
+              <h1>Error de Registro</h1>
+              <p>${resp.message}</p>
+              <button onclick="window.history.back()" style="background: #D4AF37; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">VOLVER</button>
+            </div>
+          </body>
+        </html>
+      `);
     }
 
     // Actualizamos avatar e isAdmin si es necesario
-    await User.updateOne({ discordId }, { avatar: avatar || '', isAdmin, isWhitelisted: isAdmin });
+    await User.updateOne({ discordId }, { 
+      avatar: avatar || '', 
+      isAdmin, 
+      isWhitelisted: isAdmin,
+      lastIp: req.ip,
+      lastLogin: new Date()
+    });
 
-    res.redirect(`/api/v2/dashboard?id=${discordId}`);
+    if (state === 'launcher') {
+      return res.redirect(`/api/v2/discord/login?state=launcher`);
+    } else {
+      res.redirect(`/api/v2/dashboard?id=${discordId}`);
+    }
   } catch (error) {
     console.error('Registration Error:', error);
     res.status(500).send('Error al crear la cuenta.');
@@ -747,7 +844,7 @@ router.get('/api/v2/dashboard', async (req, res) => {
   res.send(`
     <html>
       <head>
-        <title>.v2 Dashboard | ${user.username}</title>
+        <title>Snouwe Dashboard | ${user.username}</title>
         <style>
           @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Rajdhani:wght@300;400;600;700&display=swap');
           
@@ -1160,6 +1257,15 @@ router.get('/api/v2/dashboard', async (req, res) => {
                 <button type="submit" class="btn">${t.update}</button>
               </form>
             </div>
+            <div class="card-stat">
+              <div class="label">${t.change_id}</div>
+              <form action="/api/v2/user/update-id" method="POST">
+                <div class="form-group">
+                  <input type="text" name="newId" placeholder="${t.new_id_placeholder}" required minlength="3" pattern="[a-zA-Z0-9_.-]+">
+                </div>
+                <button type="submit" class="btn">${t.update}</button>
+              </form>
+            </div>
           </div>
 
           <div style="margin-top: 3rem; text-align: center; color: var(--text-muted); font-size: 0.8rem; font-family: 'Orbitron', sans-serif; letter-spacing: 1px;">
@@ -1270,6 +1376,26 @@ router.post('/api/v2/user/update-name', async (req, res) => {
   
   await User.updateOne({ discordId: sessionUser }, { username: newUsername, username_lower: newUsername.toLowerCase() });
   res.redirect(`/api/v2/dashboard?id=${sessionUser}&success=name`);
+});
+
+router.post('/api/v2/user/update-id', async (req, res) => {
+  const sessionUser = req.cookies?.leilos_session;
+  const { newId } = req.body;
+  if (!sessionUser) return res.redirect('/api/v2/discord/login');
+
+  const allowedIdChars = /^[a-zA-Z0-9_.-]+$/;
+  if (!allowedIdChars.test(newId)) {
+    return res.redirect(`/api/v2/dashboard?id=${sessionUser}&error=invalid_id`);
+  }
+
+  const newEmail = `${newId}@leilos.tf`.toLowerCase();
+  const existing = await User.findOne({ email: newEmail });
+  if (existing) {
+    return res.redirect(`/api/v2/dashboard?id=${sessionUser}&error=exists`);
+  }
+  
+  await User.updateOne({ discordId: sessionUser }, { email: newEmail });
+  res.redirect(`/api/v2/dashboard?id=${sessionUser}&success=id`);
 });
 
 router.post('/api/v2/user/update-password', async (req, res) => {

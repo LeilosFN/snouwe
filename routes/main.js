@@ -252,6 +252,64 @@ app.get("/fortnite/api/game/v2/twitch/*", (req, res) => {
     res.end();
 });
 
+app.post("/api/v1/fortnite-br/surfaces/*/target", (req, res) => {
+    const id = "fortnite-br-br-motd-collection";
+    res.json({
+        contentType: "collection",
+        contentid: id,
+        tcid: id,
+        contentMeta: `"${id}":[${id}]}`,
+        contentItems: [
+            {
+                contentType: "content-item",
+                contentid: id,
+                tcid: id,
+                contentFields: {
+                    Buttons: [
+                        {
+                            Action: {
+                                _type: "MotdDiscoveryAction",
+                                category: "set_br_playlists",
+                                islandCode: "set_br_playlists",
+                                shouldOpen: true,
+                            },
+                            Style: "0",
+                            Text: "Play Now",
+                            _type: "Button",
+                        },
+                    ],
+                    FullScreenBackground: {
+                        Image: [
+                            {
+                                width: 1920,
+                                height: 1080,
+                                url: "https://cdn.leilos.qzz.io/public/media/images/logo/background.jpg",
+                            }
+                        ],
+                        _type: "FullScreenBackground",
+                    },
+                    FullScreenBody: "Snouwe Backend",
+                    FullScreenTitle: "LEILOS",
+                    TeaserBackground: {
+                        Image: [
+                            {
+                                width: 1024,
+                                height: 512,
+                                url: "https://cdn1.epicgames.com/offer/fn/Blade_2560x1440_2560x1440-95718a8046a942675a0bc4d27560e2bb",
+                            },
+                        ],
+                        _type: "TeaserBackground",
+                    },
+                    TeaserTitle: "SNOUWE",
+                    VerticalTextLayout: false,
+                },
+                contentSchemaName: "DynamicMotd",
+                contentHash: "c93adbc7a8a9f94a916de62aa443e2d6",
+            },
+        ],
+    });
+});
+
 app.get("/fortnite/api/game/v2/world/info", (req, res) => {
     res.json({});
 });

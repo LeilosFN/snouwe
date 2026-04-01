@@ -482,6 +482,7 @@ async function updatePresenceForFriends(ws, body, away, offline) {
     global.Clients[SenderIndex].lastPresenceUpdate.status = body;
 
     let friends = await Friends.findOne({ accountId: SenderData.accountId });
+    if (!friends) return;
     let accepted = friends.list.accepted;
 
     accepted.forEach(friend => {
