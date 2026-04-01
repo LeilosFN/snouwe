@@ -12,8 +12,6 @@ Este backend es una versión personalizada de LawinserverV2 y mejorada llamada *
 - **Skins y Cosméticos:** Incluye soporte para todas las skins hasta la versión **v28.30**.
 - **Guardado Automático:** Los cambios en tu locker se guardan instantáneamente en la base de datos de Proyecto Leilos.
 - **Personalización:** Soporte para fondos de lobby personalizados (Lobby Backgrounds).
-- **Interfaz Limpia:** Se han configurado los modos de juego (Solo, Arena) para una experiencia óptima.
-- **Sistema de Ready:** Opción de marcar como "Listo" funcional con Matchmaking activo.
 
 ### 🤖 Integración con Discord
 - **Bot de Snouwe:** Notificaciones automáticas y comandos integrados para el Proyecto Leilos.
