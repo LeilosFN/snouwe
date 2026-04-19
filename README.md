@@ -1,6 +1,6 @@
 # Snouwe Backend - Proyecto Leilos 🚀
 > **Estado del Proyecto:** ⚠️ *En desarrollo (Beta) - Versión v28.30.*
-> No esta terminado y como que tampoco voy a terminarlo por ahora :)
+> **No esta terminado y como que tampoco voy a terminarlo por ahora :)**
 > **Web Oficial:** [leilos.qzz.io](https://leilos.qzz.io)
 
 Este backend es una versión personalizada y mejorada llamada **Snouwe**, desarrollada exclusivamente para el **Proyecto Leilos**.
